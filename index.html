@@ -1,115 +1,116 @@
+html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Учёба-Про</title>
+<title>ХимЛаб-Трекер</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0b1120;color:#f8fafc;font-family:sans-serif;padding:4px}
-.card{max-width:420px;margin:0 auto;background:#1e293b;border-radius:12px;padding:10px;border:1px solid #334155}
+body{background:#060d0b;color:#ecfdf5;font-family:sans-serif;padding:4px}
+.card{max-width:420px;margin:0 auto;background:#0f1f1b;border-radius:12px;padding:10px;border:1px solid #1e3a32}
 .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.title{font-size:13px;font-weight:bold;color:#38bdf8}
-.badge{font-size:11px;font-weight:bold;color:#38bdf8;background:#0f172a;padding:2px 6px;border-radius:5px}
-.box{background:#0f172a;border-radius:8px;padding:8px;margin-bottom:8px}
-.box.alarm{background:#0284c7}
-.quote{font-size:12px;line-height:1.35;margin-bottom:8px;color:#e2e8f0}
+.title{font-size:13px;font-weight:bold;color:#10b981}
+.badge{font-size:11px;font-weight:bold;color:#34d399;background:#060d0b;padding:2px 6px;border-radius:5px;border:1px solid #1e3a32}
+.box{background:#060d0b;border-radius:8px;padding:8px;margin-bottom:8px;border:1px solid #132a24}
+.box.alarm{background:#059669;border-color:#6ee7b7}
+.quote{font-size:12px;line-height:1.35;margin-bottom:8px;color:#d1fae5}
 .row{display:flex;gap:4px;margin-bottom:6px}
 button{border:none;border-radius:6px;font-weight:bold;cursor:pointer}
-.m-btn{flex:1;background:#1e293b;color:#e2e8f0;border:1px solid #334155;padding:6px 2px;font-size:10px}
-.m-btn:active{background:#38bdf8;color:#0f172a}
-.t-btn{flex:1;background:#38bdf8;color:#0f172a;padding:6px;font-size:11px}
-.ack-btn{width:100%;background:#fff;color:#0284c7;padding:6px;font-size:11px;display:none}
-.tab{flex:1;background:#0f172a;color:#94a3b8;padding:6px;font-size:11px}
-.tab.active{background:#38bdf8;color:#0f172a}
-.sub-tab{flex:1;background:#0f172a;color:#94a3b8;border:1px solid #334155;padding:4px 2px;font-size:10px;border-radius:5px}
-.sub-tab.active{background:#34d399;color:#0f172a;border-color:#34d399}
-input{background:#0f172a;border:1px solid #334155;color:#fff;padding:6px;border-radius:6px;font-size:12px;min-width:0}
+.m-btn{flex:1;background:#0f1f1b;color:#a7f3d0;border:1px solid #1e3a32;padding:6px 2px;font-size:10px}
+.m-btn:active{background:#10b981;color:#060d0b}
+.t-btn{flex:1;background:#10b981;color:#060d0b;padding:6px;font-size:11px}
+.ack-btn{width:100%;background:#ecfdf5;color:#065f46;padding:6px;font-size:11px;display:none}
+.tab{flex:1;background:#060d0b;color:#6ee7b7;padding:6px;font-size:11px}
+.tab.active{background:#10b981;color:#060d0b}
+.sub-tab{flex:1;background:#060d0b;color:#6ee7b7;border:1px solid #1e3a32;padding:4px 2px;font-size:10px;border-radius:5px}
+.sub-tab.active{background:#38bdf8;color:#060d0b;border-color:#38bdf8}
+input{background:#060d0b;border:1px solid #1e3a32;color:#ecfdf5;padding:6px;border-radius:6px;font-size:12px;min-width:0}
 .in-time{width:50px;text-align:center}
 .in-text{flex:1}
-.add-btn{background:#34d399;color:#0f172a;width:28px;font-size:16px}
+.add-btn{background:#10b981;color:#060d0b;width:28px;font-size:16px}
 ul{list-style:none;max-height:150px;overflow-y:auto}
-li{display:flex;justify-content:space-between;align-items:center;padding:6px;background:#0f172a;border-radius:6px;margin-bottom:4px;font-size:12px;border-left:3px solid #38bdf8}
-li.done{opacity:0.4;text-decoration:line-through}
+li{display:flex;justify-content:space-between;align-items:center;padding:6px;background:#060d0b;border-radius:6px;margin-bottom:4px;font-size:12px;border-left:3px solid #10b981}
+li.done{opacity:0.4;text-decoration:line-through;border-left-color:#38bdf8}
 .t-info{flex:1;display:flex;gap:6px;cursor:pointer;overflow:hidden}
 .del{background:none;color:#f87171;font-size:13px;padding:0 4px}
-textarea{width:100%;height:115px;background:#0f172a;border:1px solid #334155;border-radius:8px;color:#fff;padding:8px;font-size:12px;line-height:1.35;resize:none}
+textarea{width:100%;height:115px;background:#060d0b;border:1px solid #1e3a32;border-radius:8px;color:#ecfdf5;padding:8px;font-size:12px;line-height:1.35;resize:none}
 </style>
 </head>
 <body>
 <div class="card">
 <div class="top">
-<div class="title">📚 Учёба-Трекер</div>
+<div class="title">🧪 ХимЛаб-Трекер</div>
 <div><span class="badge" id="prog">0/0</span> <span class="badge" id="clk">00:00</span></div>
 </div>
 <div class="box" id="mbox">
-<div class="quote" id="q">Готов к делу или отдыхаешь? Жми на нужное состояние.</div>
+<div class="quote" id="q">Реакция не пойдёт без энергии активации. Жми на колбу ниже!</div>
 <div class="row" id="mbtns">
 <button class="m-btn" onclick="mood(0)">😴 Лень</button>
 <button class="m-btn" onclick="mood(1)">📱 Залип</button>
 <button class="m-btn" onclick="mood(2)">🤯 Сложно</button>
-<button class="m-btn" onclick="mood(3)">☕ Отдых</button>
+<button class="m-btn" onclick="mood(3)">⚗️ Отдых</button>
 </div>
 <div class="row" id="trow" style="display:none">
-<button class="t-btn" onclick="timer(300)">⏱ 5 мин</button>
-<button class="t-btn" style="background:#818cf8" onclick="timer(1500)">🍅 25 мин</button>
+<button class="t-btn" onclick="timer(300)">🔥 5 мин реакция</button>
+<button class="t-btn" style="background:#38bdf8" onclick="timer(1500)">☢️ 25 мин синтез</button>
 </div>
-<button class="ack-btn" id="abtn" onclick="ack()">✅ Сажусь учить!</button>
+<button class="ack-btn" id="abtn" onclick="ack()">✅ Запускаю реакцию!</button>
 </div>
 <div class="row">
 <button class="tab active" id="tp" onclick="tab(0)">📅 План</button>
-<button class="tab" id="tn" onclick="tab(1)">📝 Заметки</button>
+<button class="tab" id="tn" onclick="tab(1)">🧬 Лаб. журнал</button>
 </div>
 <div id="vp">
 <div class="row">
 <input class="in-time" id="tt" value="12:00" maxlength="5">
-<input class="in-text" id="ti" placeholder="Предмет или задача...">
+<input class="in-text" id="ti" placeholder="Реакция, лаба или предмет...">
 <button class="add-btn" onclick="add()">+</button>
 </div>
 <ul id="list"></ul>
 </div>
 <div id="vn" style="display:none">
 <div class="row">
-<button class="sub-tab active" id="st0" onclick="subTab(0)">📚 ДЗ / Долги</button>
-<button class="sub-tab" id="st1" onclick="subTab(1)">📐 Формулы / Темы</button>
-<button class="sub-tab" id="st2" onclick="subTab(2)">💡 Разное</button>
+<button class="sub-tab active" id="st0" onclick="subTab(0)">🧪 ДЗ / Лабы</button>
+<button class="sub-tab" id="st1" onclick="subTab(1)">⚗️ Формулы</button>
+<button class="sub-tab" id="st2" onclick="subTab(2)">☢️ Разное</button>
 </div>
-<textarea id="nb" placeholder="Пиши сюда..." oninput="saveNote()"></textarea>
+<textarea id="nb" placeholder="Запиши сюда уравнения, молярные массы или ДЗ..." oninput="saveNote()"></textarea>
 </div>
 </div>
 <script>
 var rep=[
 [
-"Эффект Зейгарник (из психологии): мозг ненавидит незавершённые дела. Просто начни на 2 минуты — дальше он сам захочет закончить!",
-"Правило 5 минут: договорись с собой поработать ровно 5 минут. Если станет тошно — бросишь со спокойной совестью.",
-"Учебник сам себя не прочтёт. Сделай хотя бы один номер или прочитай один параграф!",
-"Не жди вдохновения — в нейробиологии мотивация приходит ПОСЛЕ начала действия, а не до него.",
-"Твой будущий ты перед экзаменом скажет огромное спасибо за эти 15 минут сегодня."
+"Мем: Ты сейчас как инертный газ (Гелий) — ни с чем не реагируешь и лежишь. Дай себе 5 минут энергии активации!",
+"Второй закон термодинамики: энтропия (бардак в голове и делах) сама по себе только растёт. Нужен приток энергии извне. Вставай!",
+"Эффект Зейгарник: мозг ненавидит незавершённые реакции. Начни уравнивать хотя бы одну цепочку — дальше пойдёт цепная реакция!",
+"Даже самый ленивый оксид реагирует, если его как следует подогреть. Подогрей себя таймером на 5 минут!",
+"Не будь как золото в царской водке — не жди, пока припечёт перед зачётом. Начни сейчас!"
 ],
 [
-"Дофаминовая ловушка: лента даёт дешёвый дофамин, после которого учёба кажется скучной. Убери телефон в другую комнату на 25 минут!",
-"В ленте мемов диплом не выдают! Клади телефон экраном вниз и жми таймер ниже.",
-"Каждые 10 минут в соцсетях крадут 20 минут твоей концентрации. Спасай свой фокус прямо сейчас!",
-"Закрывай вкладки. Через 25 минут проверишь сообщения с чистой совестью."
+"Мем: Твой телефон сейчас как концентрированная H2SO4 — обугливает твоё свободное время. Отложи его на 25 минут!",
+"Дофаминовая ловушка: лента даёт дешёвые электроны, после которых учебник кажется пресным. Убери смартфон из зоны реакции!",
+"Ты залип в экран, как натрий в воде, только без бурного выделения пользы. Закрывай вкладки!",
+"Каждые 10 минут в соцсетях отравляют катализатор твоей концентрации. Спасай синтез знаний!"
 ],
 [
-"Метод Фейнмана (из учебников): попробуй объяснить сложную тему простыми словами так, будто рассказываешь её 10-летнему ребёнку.",
-"Приём чанкинга: не учи всё сразу. Разбей параграф на 3 маленьких блока и выучи только первый.",
-"Активное припоминание: закрой конспект и попробуй вспомнить 3 главных факта. Это в 2 раза эффективнее перечитывания!",
-"Сделай самый тупой и лёгкий кусок задания — просто оформи шапку или выпиши формулы."
+"Метод Фейнмана: объясни механизм реакции так просто, будто рассказываешь его первокласснику. Сразу поймёшь, где пробел!",
+"Приём чанкинга: не пытайся проглотить всю органику разом — разбей на гомологические ряды и выучи один.",
+"Мем: Если задача по химии не решается — вспомни, что ты сам на 65% состоишь из воды, а вода вообще амфотерная. Выкрутишься!",
+"Активное припоминание: закрой таблицу Менделеева и тетрадь, попробуй написать 3 формулы по памяти. Это качает нейроны в 2 раза сильнее!"
 ],
 [
-"Правило 20-20-20 (для глаз): каждые 20 минут смотри на объект в 6 метрах от себя ровно 20 секунд. Глаза скажут спасибо!",
-"Научный факт: скроллинг ленты НЕ даёт мозгу отдохнуть. Лучший перерыв — 5 минут полежать с закрытыми глазами или походить.",
-"Диффузное мышление: когда ты отвлекаешься от задачи на прогулку или душ, мозг в фоне продолжает искать решение!",
-"Свободное время? Сделай 15 приседаний или потянись — приток кислорода разгонит сонное состояние лучше кофе.",
-"Интервальное повторение: пробегись глазами по вчерашнему конспекту 3 минуты в свободное время — запомнишь намертво!"
+"Правило 20-20-20: каждые 20 минут отрывайся от формул и смотри в окно на 6 метров вдаль ровно 20 секунд. Береги оптику!",
+"Диффузное мышление: во время прогулки или душа мозг в фоне продолжает синтезировать решение сложной задачи, как в автоклаве.",
+"Мем: Идеальный отдых — это когда ты перешёл в состояние химического равновесия: скорость отдыха равна скорости восстановления сил. Не трать перерыв на ленту!",
+"Сделай 15 приседаний — приток O2 в кровь окислит глюкозу и даст мозгу чистый АТФ без всяких энергетиков!",
+"Интервальное повторение: пробегись глазами по вчерашним реакциям 3 минуты в свободное время — закрепишь осадок знаний намертво!"
 ]
 ];
-var tasks=JSON.parse(localStorage.getItem('st'))||[{t:"12:00",x:"Сесть за учёбу",d:false}];
+var tasks=JSON.parse(localStorage.getItem('st'))||[{t:"12:00",x:"Сесть за химию",d:false}];
 var notes=JSON.parse(localStorage.getItem('sn_sec'))||["","",""];
 var curSec=0,tmr=null,alIdx=null,dis={};
-document.getElementById('nb').value=notes[0];
+document.getElementById('nb').value=notes[0]||'';
 
 function tab(n){
 document.getElementById('vp').style.display=n?'none':'block';
@@ -135,12 +136,12 @@ document.getElementById('trow').style.display='flex';
 function timer(s){
 stopT();
 var r=document.getElementById('trow');
-document.getElementById('q').innerText=(s===1500)?"🍅 25 минут глубокой концентрации!":"🔥 5 минут чистого фокуса!";
+document.getElementById('q').innerText=(s===1500)?"☢️ Идёт синтез знаний: 25 минут без отвлечений!":"🔥 Подана энергия активации: 5 минут работы!";
 r.innerHTML='<button class="t-btn" id="at" onclick="stopT()"></button>';
 updT(s);
 tmr=setInterval(function(){
 s--;updT(s);
-if(s<=0){stopT();document.getElementById('q').innerText="🏆 Отличная сессия! Пора сделать правильный перерыв.";}
+if(s<=0){stopT();document.getElementById('q').innerText="🏆 Реакция прошла со 100% выходом! Сделай перерыв.";}
 },1000);
 }
 function updT(s){
@@ -149,7 +150,7 @@ if(b)b.innerText='⏳ '+('0'+Math.floor(s/60)).slice(-2)+':'+('0'+(s%60)).slice(
 }
 function stopT(){
 if(tmr){clearInterval(tmr);tmr=null;}
-document.getElementById('trow').innerHTML='<button class="t-btn" onclick="timer(300)">⏱ 5 мин</button><button class="t-btn" style="background:#818cf8" onclick="timer(1500)">🍅 25 мин</button>';
+document.getElementById('trow').innerHTML='<button class="t-btn" onclick="timer(300)">🔥 5 мин реакция</button><button class="t-btn" style="background:#38bdf8" onclick="timer(1500)">☢️ 25 мин синтез</button>';
 }
 function render(){
 var ul=document.getElementById('list');ul.innerHTML='';
@@ -159,7 +160,7 @@ for(var i=0;i<tasks.length;i++){
 if(tasks[i].d)dn++;
 var li=document.createElement('li');
 if(tasks[i].d)li.className='done';
-li.innerHTML='<div class="t-info" onclick="tog('+i+')"><b style="color:#38bdf8">'+tasks[i].t+'</b><span>'+tasks[i].x+'</span></div><button class="del" onclick="del('+i+')">✕</button>';
+li.innerHTML='<div class="t-info" onclick="tog('+i+')"><b style="color:#10b981">'+tasks[i].t+'</b><span>'+tasks[i].x+'</span></div><button class="del" onclick="del('+i+')">✕</button>';
 ul.appendChild(li);
 }
 document.getElementById('prog').innerText=dn+'/'+tasks.length;
@@ -184,22 +185,25 @@ if(!tasks[i].d&&tasks[i].t===cs&&!dis[tasks[i].t+tasks[i].x])f=i;
 }
 if(f!==null&&alIdx!==f){
 stopT();alIdx=f;
-document.getElementById('q').innerText="🚨 ВРЕМЯ ("+tasks[f].t+")! Пора учить: "+tasks[f].x;
+document.getElementById('q').innerText="🚨 ВРЕМЯ ("+tasks[f].t+")! Запускай реакцию: "+tasks[f].x;
 document.getElementById('mbox').className='box alarm';
 document.getElementById('abtn').style.display='block';
 document.getElementById('mbtns').style.display='none';
 document.getElementById('trow').style.display='none';
 }else if(f===null&&alIdx!==null)ack();
 }
+Используйте код с осторожностью.
 function ack(){
 if(alIdx!==null)dis[tasks[alIdx].t+tasks[alIdx].x]=true;
 alIdx=null;
 document.getElementById('mbox').className='box';
 document.getElementById('abtn').style.display='none';
 document.getElementById('mbtns').style.display='flex';
-document.getElementById('q').innerText="Продуктивной учёбы!";
+document.getElementById('q').innerText="Катализатор сработал! Продолжаем синтез знаний.";
 }
 render();chk();setInterval(chk,5000);
 </script>
 </body>
 </html>
+
+  
