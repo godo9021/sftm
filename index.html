@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пинко-Виджет</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #141416;
+            color: #ffffff;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        .widget-card {
+            width: 100%;
+            max-width: 380px;
+            background: #1e1e24;
+            border-radius: 18px;
+            padding: 14px;
+            border: 1px solid #2e2e38;
+        }
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            background: #141416;
+            padding: 4px;
+            border-radius: 12px;
+        }
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            color: #8e8e93;
+            border: none;
+            padding: 6px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .tab-btn.active { background: #ff9f0a; color: #000000; }
+        .motivator {
+            background: #282830;
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .quote-text { font-size: 13px; line-height: 1.35; color: #f2f2f7; }
+        .btn-kick {
+            background: #3a3a44;
+            color: #ff9f0a;
+            border: 1px solid #ff9f0a;
+            padding: 6px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+        .add-row { display: flex; gap: 6px; margin-bottom: 10px; }
+        input[type="time"] {
+            background: #141416;
+            border: 1px solid #3a3a44;
+            color: #fff;
+            padding: 6px 8px;
+            border-radius: 8px;
+            font-size: 13px;
+            width: 85px;
+        }
+        input[type="text"] {
+            flex: 1;
+            background: #141416;
+            border: 1px solid #3a3a44;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            min-width: 0;
+        }
+        .btn-add {
+            background: #30d158;
+            color: #000;
+            border: none;
+            width: 34px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .task-list { list-style: none; max-height: 220px; overflow-y: auto; }
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            background: #25252d;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        .task-item.done { opacity: 0.45; }
+        .task-item.done .task-text { text-decoration: line-through; }
+        .task-info { display: flex; align-items: center; gap: 8px; flex: 1; cursor: pointer; }
+        .task-time { color: #ff9f0a; font-weight: 700; }
+        .btn-del {
+            background: transparent;
+            color: #ff453a;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 2px 6px;
+            cursor: pointer;
+        }
+        .rename-hint {
+            text-align: center;
+            font-size: 10px;
+            color: #636366;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="widget-card">
+    <div class="tabs">
+        <button class="tab-btn active" id="tab0" onclick="switchProfile(0)">Моё расписание</button>
+        <button class="tab-btn" id="tab1" onclick="switchProfile(1)">Расписание друга</button>
+    </div>
+
+    <div class="motivator">
+        <div class="quote-text" id="quote">Жми кнопку ниже, если лень снова взяла верх.</div>
+        <div class="btn-kick" onclick="getMotivation()">⚡ Дай пинок</div>
+    </div>
+
+    <div class="add-row">
+        <input type="time" id="taskTime" value="12:00">
+        <input type="text" id="taskInput" placeholder="Новая задача...">
+        <button class="btn-add" onclick="addTask()">+</button>
+    </div>
+
+    <ul class="task-list" id="taskList"></ul>
+    
+    <div class="rename-hint" onclick="renameCurrentProfile()">✏️ Переименовать текущую вкладку</div>
+</div>
+
+<script>
+    const quotes = [
+        "Вставай, великие дела сами себя не прокрастинируют!",
+        "Диван тебя не бросит, а вот дедлайн — легко. Погнали!",
+        "Сделай хотя бы 5 минут. Не пойдёт — разрешаю официально поныть.",
+        "Хватит пялиться в экран, как кот на пылесос. Бери и делай!",
+        "Уровень энергии: картошка. Но даже картошка стала фри. Вперёд!",
+        "Твой будущий ты скажет спасибо. А ленивый ты пусть пока помолчит.",
+        "Если сейчас не начнёшь, вечером будешь придумывать отмазки."
+    ];
+
+    let currentProfile = 0;
+
+    let data = JSON.parse(localStorage.getItem('widgetData')) || {
+        names: ["Моё расписание", "Расписание друга"],
+        tasks: [
+            [
+                { time: "09:00", text: "Проснуться и не умереть", done: false },
+                { time: "13:00", text: "Сделать важное дело", done: false }
+            ],
+            [
+                { time: "10:00", text: "Катка или учёба", done: false },
+                { time: "18:00", text: "Пойти погулять", done: false }
+            ]
+        ]
+    };
+
+    function updateTabsUI() {
+        document.getElementById('tab0').innerText = data.names[0];
+        document.getElementById('tab1').innerText = data.names[1];
+        document.getElementById('tab0').className = 'tab-btn' + (currentProfile === 0 ? ' active' : '');
+        document.getElementById('tab1').className = 'tab-btn' + (currentProfile === 1 ? ' active' : '');
+    }
+
+    function switchProfile(index) {
+        currentProfile = index;
+        updateTabsUI();
+        renderTasks();
+    }
+
+    function renameCurrentProfile() {
+        const newName = prompt("Введи новое название вкладки:", data.names[currentProfile]);
+        if (newName && newName.trim() !== "") {
+            data.names[currentProfile] = newName.trim();
+            saveData();
+            updateTabsUI();
+        }
+    }
+
+    function getMotivation() {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        document.getElementById('quote').innerText = quotes[randomIndex];
+    }
+
+    function saveData() {
+        localStorage.setItem('widgetData', JSON.stringify(data));
+    }
+
+    function renderTasks() {
+        const list = document.getElementById('taskList');
+        list.innerHTML = '';
+        const currentTasks = data.tasks[currentProfile];
+        currentTasks.sort((a, b) => a.time.localeCompare(b.time));
+
+        currentTasks.forEach((task, index) => {
+            const li = document.createElement('li');
+            li.className = 'task-item' + (task.done ? ' done' : '');
+            li.innerHTML = `
+                <div class="task-info" onclick="toggleTask(${index})">
+                    <span class="task-time">${task.time}</span>
+                    <span class="task-text">${task.text}</span>
+                </div>
+                <button class="btn-del" onclick="deleteTask(${index})">✕</button>
+            `;
+            list.appendChild(li);
+        });
+    }
+
+    function addTask() {
+        const time = document.getElementById('taskTime').value;
+        const text = document.getElementById('taskInput').value.trim();
+        if (!text) return;
+        data.tasks[currentProfile].push({ time: time || "00:00", text: text, done: false });
+        document.getElementById('taskInput').value = '';
+        saveData();
+        renderTasks();
+    }
+
+    function toggleTask(index) {
+        data.tasks[currentProfile][index].done = !data.tasks[currentProfile][index].done;
+        saveData();
+        renderTasks();
+    }
+
+    function deleteTask(index) {
+        data.tasks[currentProfile].splice(index, 1);
+        saveData();
+        renderTasks();
+    }
+
+    updateTabsUI();
+    renderTasks();
+</script>
+
+</body>
+</html>
