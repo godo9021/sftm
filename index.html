@@ -1,258 +1,399 @@
+html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Пинко-Виджет</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            width: 100vw;
+            max-width: 100%;
+            overflow-x: hidden;
             background-color: #141416;
             color: #ffffff;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
+            font-family: sans-serif;
+            padding: 2px;
         }
         .widget-card {
             width: 100%;
-            max-width: 380px;
             background: #1e1e24;
-            border-radius: 18px;
-            padding: 14px;
+            border-radius: 12px;
+            padding: 8px;
             border: 1px solid #2e2e38;
         }
-        .tabs {
+        .top-bar {
             display: flex;
-            gap: 6px;
-            margin-bottom: 12px;
-            background: #141416;
-            padding: 4px;
-            border-radius: 12px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
         }
-        .tab-btn {
-            flex: 1;
-            background: transparent;
-            color: #8e8e93;
-            border: none;
-            padding: 6px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .tab-btn.active { background: #ff9f0a; color: #000000; }
-        .motivator {
-            background: #282830;
-            border-radius: 12px;
-            padding: 10px 12px;
-            margin-bottom: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .quote-text { font-size: 13px; line-height: 1.35; color: #f2f2f7; }
-        .btn-kick {
-            background: #3a3a44;
-            color: #ff9f0a;
-            border: 1px solid #ff9f0a;
-            padding: 6px;
-            border-radius: 8px;
+        .title {
             font-size: 12px;
             font-weight: bold;
-            cursor: pointer;
-            text-align: center;
+            color: #f2f2f7;
         }
-        .add-row { display: flex; gap: 6px; margin-bottom: 10px; }
-        input[type="time"] {
+        .clock {
+            font-size: 11px;
+            font-weight: bold;
+            color: #ff9f0a;
             background: #141416;
-            border: 1px solid #3a3a44;
-            color: #fff;
-            padding: 6px 8px;
-            border-radius: 8px;
-            font-size: 13px;
-            width: 85px;
+            padding: 2px 6px;
+            border-radius: 5px;
         }
-        input[type="text"] {
+        .motivator {
+            background: #282830;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 6px;
+        }
+        .motivator.alarm {
+            background: #ff9f0a;
+            color: #000000;
+        }
+        .motivator.alarm .quote-text {
+            color: #000000;
+            font-weight: bold;
+        }
+        .quote-text {
+            font-size: 11px;
+            line-height: 1.3;
+            color: #f2f2f7;
+            margin-bottom: 6px;
+            word-break: break-word;
+        }
+        .mood-buttons {
+            display: flex;
+            gap: 3px;
+            width: 100%;
+        }
+        .mood-btn {
             flex: 1;
+            min-width: 0;
+            background: #3a3a44;
+            color: #ffffff;
+            border: none;
+            padding: 4px 2px;
+            border-radius: 5px;
+            font-size: 10px;
+            cursor: pointer;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .timer-btn, .alarm-ack-btn {
+            width: 100%;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 4px;
+            display: none;
+        }
+        .timer-btn { background: #30d158; color: #000; }
+        .alarm-ack-btn { background: #000; color: #ff9f0a; }
+        
+        .row {
+            display: flex;
+            gap: 3px;
+            margin-bottom: 6px;
+            width: 100%;
+        }
+        input {
             background: #141416;
             border: 1px solid #3a3a44;
             color: #fff;
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 4px 6px;
+            border-radius: 5px;
+            font-size: 11px;
             min-width: 0;
+        }
+        .chat-input { flex: 1; }
+        .time-in { width: 46px; text-align: center; flex-shrink: 0; }
+        .task-in { flex: 1; }
+        
+        .btn-small {
+            background: #ff9f0a;
+            color: #000;
+            border: none;
+            padding: 0 8px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            flex-shrink: 0;
         }
         .btn-add {
             background: #30d158;
             color: #000;
             border: none;
-            width: 34px;
-            border-radius: 8px;
-            font-size: 18px;
+            width: 24px;
+            border-radius: 5px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
+            flex-shrink: 0;
         }
-        .task-list { list-style: none; max-height: 220px; overflow-y: auto; }
+        .task-list {
+            list-style: none;
+            max-height: 140px;
+            overflow-y: auto;
+            width: 100%;
+        }
         .task-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 8px 10px;
+            padding: 5px 6px;
             background: #25252d;
-            border-radius: 10px;
-            margin-bottom: 6px;
-            font-size: 13px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            font-size: 11px;
+            gap: 4px;
         }
-        .task-item.done { opacity: 0.45; }
-        .task-item.done .task-text { text-decoration: line-through; }
-        .task-info { display: flex; align-items: center; gap: 8px; flex: 1; cursor: pointer; }
-        .task-time { color: #ff9f0a; font-weight: 700; }
+        .task-item.done { opacity: 0.4; text-decoration: line-through; }
+        .task-info {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex: 1;
+            min-width: 0;
+            cursor: pointer;
+        }
+        .task-time { color: #ff9f0a; font-weight: bold; flex-shrink: 0; }
+        .task-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .btn-del {
             background: transparent;
             color: #ff453a;
             border: none;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
-            padding: 2px 6px;
             cursor: pointer;
-        }
-        .rename-hint {
-            text-align: center;
-            font-size: 10px;
-            color: #636366;
-            margin-top: 6px;
-            cursor: pointer;
+            flex-shrink: 0;
         }
     </style>
 </head>
 <body>
 
 <div class="widget-card">
-    <div class="tabs">
-        <button class="tab-btn active" id="tab0" onclick="switchProfile(0)">Моё расписание</button>
-        <button class="tab-btn" id="tab1" onclick="switchProfile(1)">Расписание друга</button>
+    <div class="top-bar">
+        <div class="title">🤖 Помощник</div>
+        <div class="clock" id="clock">00:00</div>
     </div>
 
-    <div class="motivator">
-        <div class="quote-text" id="quote">Жми кнопку ниже, если лень снова взяла верх.</div>
-        <div class="btn-kick" onclick="getMotivation()">⚡ Дай пинок</div>
+    <div class="motivator" id="motivatorBox">
+        <div class="quote-text" id="quote">Как настрой? Жми состояние или пиши ниже.</div>
+        <div class="mood-buttons" id="moodBtns">
+            <button class="mood-btn" onclick="askMood('lazy')">😴 Лень</button>
+            <button class="mood-btn" onclick="askMood('phone')">📱 Залип</button>
+            <button class="mood-btn" onclick="askMood('hard')">🤯 Сложно</button>
+        </div>
+        <button class="timer-btn" id="timerBtn" onclick="startFiveMinTimer()">⏱ Таймер 5 мин</button>
+        <button class="alarm-ack-btn" id="alarmAckBtn" onclick="ackAlarm()">✅ Иду делать!</button>
     </div>
 
-    <div class="add-row">
-        <input type="time" id="taskTime" value="12:00">
-        <input type="text" id="taskInput" placeholder="Новая задача...">
+    <div class="row">
+        <input type="text" class="chat-input" id="userMsg" placeholder="Напиши мне..." onkeypress="if(event.key==='Enter') sendCustomMsg()">
+        <button class="btn-small" onclick="sendCustomMsg()">Ок</button>
+    </div>
+
+    <div class="row">
+        <input type="text" class="time-in" id="taskTime" value="12:00" maxlength="5">
+        <input type="text" class="task-in" id="taskInput" placeholder="Новая задача...">
         <button class="btn-add" onclick="addTask()">+</button>
     </div>
 
     <ul class="task-list" id="taskList"></ul>
-    
-    <div class="rename-hint" onclick="renameCurrentProfile()">✏️ Переименовать текущую вкладку</div>
 </div>
 
 <script>
-    const quotes = [
-        "Вставай, великие дела сами себя не прокрастинируют!",
-        "Диван тебя не бросит, а вот дедлайн — легко. Погнали!",
-        "Сделай хотя бы 5 минут. Не пойдёт — разрешаю официально поныть.",
-        "Хватит пялиться в экран, как кот на пылесос. Бери и делай!",
-        "Уровень энергии: картошка. Но даже картошка стала фри. Вперёд!",
-        "Твой будущий ты скажет спасибо. А ленивый ты пусть пока помолчит.",
-        "Если сейчас не начнёшь, вечером будешь придумывать отмазки."
-    ];
-
-    let currentProfile = 0;
-
-    let data = JSON.parse(localStorage.getItem('widgetData')) || {
-        names: ["Моё расписание", "Расписание друга"],
-        tasks: [
-            [
-                { time: "09:00", text: "Проснуться и не умереть", done: false },
-                { time: "13:00", text: "Сделать важное дело", done: false }
-            ],
-            [
-                { time: "10:00", text: "Катка или учёба", done: false },
-                { time: "18:00", text: "Пойти погулять", done: false }
-            ]
+    const moodReplies = {
+        lazy: [
+            "Батарейка на 5%? Просто открой нужную вкладку или тетрадь. Дальше пойдёт само.",
+            "Режим картошки: работаем ровно 5 минут, потом разрешаю лечь обратно.",
+            "Выпей воды и сделай хотя бы 10% от дела. Это уже победа!"
+        ],
+        phone: [
+            "В ленте ничего нового нет! Клади телефон экраном вниз на 5 минут.",
+            "Телефон тебя развлекает, а дела грустят. Спаси их на 5 минут!",
+            "Закрывай соцсети и жми таймер ниже!"
+        ],
+        hard: [
+            "Разбей задачу на самый тупой и лёгкий первый шаг. Какой он?",
+            "Не думай о всей задаче целиком — думай только о ближайших 5 минутах.",
+            "Сложно только первые 3 минуты. Пробей эту стену таймером!"
         ]
     };
 
-    function updateTabsUI() {
-        document.getElementById('tab0').innerText = data.names[0];
-        document.getElementById('tab1').innerText = data.names[1];
-        document.getElementById('tab0').className = 'tab-btn' + (currentProfile === 0 ? ' active' : '');
-        document.getElementById('tab1').className = 'tab-btn' + (currentProfile === 1 ? ' active' : '');
+    const alarmTemplates = [
+        "🚨 ВРЕМЯ ({time})! Бросай всё и иди: {task}!",
+        "⏰ ДЗИНЬ! На часах {time}, пора: {task}!",
+        "🔥 Хватит чиллить! {time} — время для: {task}!"
+    ];
+
+    let activeAlarmTaskIndex = null;
+    let dismissedAlarms = {};
+    let timerInterval = null;
+
+    let tasks = JSON.parse(localStorage.getItem('mySoloTasks')) || [
+        { time: "12:00", text: "Сесть за учёбу", done: false },
+        { time: "15:00", text: "Сделать важное дело", done: false }
+    ];
+
+    function askMood(type) {
+        clearTimer();
+        const list = moodReplies[type];
+        document.getElementById('quote').innerText = list[Math.floor(Math.random() * list.length)];
+        document.getElementById('timerBtn').style.display = 'block';
     }
 
-    function switchProfile(index) {
-        currentProfile = index;
-        updateTabsUI();
-        renderTasks();
-    }
-
-    function renameCurrentProfile() {
-        const newName = prompt("Введи новое название вкладки:", data.names[currentProfile]);
-        if (newName && newName.trim() !== "") {
-            data.names[currentProfile] = newName.trim();
-            saveData();
-            updateTabsUI();
-        }
-    }
-
-    function getMotivation() {
-        const randomIndex = Math.floor(Math.random() * quotes.length);
-        document.getElementById('quote').innerText = quotes[randomIndex];
-    }
-
-    function saveData() {
-        localStorage.setItem('widgetData', JSON.stringify(data));
-    }
-
-    function renderTasks() {
-        const list = document.getElementById('taskList');
-        list.innerHTML = '';
-        const currentTasks = data.tasks[currentProfile];
-        currentTasks.sort((a, b) => a.time.localeCompare(b.time));
-
-        currentTasks.forEach((task, index) => {
-            const li = document.createElement('li');
-            li.className = 'task-item' + (task.done ? ' done' : '');
-            li.innerHTML = `
-                <div class="task-info" onclick="toggleTask(${index})">
-                    <span class="task-time">${task.time}</span>
-                    <span class="task-text">${task.text}</span>
-                </div>
-                <button class="btn-del" onclick="deleteTask(${index})">✕</button>
-            `;
-            list.appendChild(li);
-        });
-    }
-
-    function addTask() {
-        const time = document.getElementById('taskTime').value;
-        const text = document.getElementById('taskInput').value.trim();
+    function sendCustomMsg() {
+        const input = document.getElementById('userMsg');
+        const text = input.value.trim().toLowerCase();
         if (!text) return;
-        data.tasks[currentProfile].push({ time: time || "00:00", text: text, done: false });
-        document.getElementById('taskInput').value = '';
-        saveData();
-        renderTasks();
+        input.value = '';
+        clearTimer();
+
+        let reply = "Слышу тебя! Не грузись. Давай сделаем маленький рывок на 5 минут. Жми таймер!";
+        if (text.includes('учеб') || text.includes('урок') || text.includes('учит')) {
+            reply = "Учёба сама себя не выучит! Разбери всего один абзац за 5 минут. Старт!";
+        } else if (text.includes('спат') || text.includes('сон') || text.includes('устал')) {
+            reply = "Если вырубает — поспи 20 минут. Если просто лень — 10 приседаний и 5 минут дела!";
+        } else if (text.includes('лень') || text.includes('не хочу')) {
+            reply = "Обмани мозг: поработай ровно 5 минут без обязательств.";
+        }
+
+        document.getElementById('quote').innerText = reply;
+        document.getElementById('timerBtn').style.display = 'block';
     }
 
-    function toggleTask(index) {
-        data.tasks[currentProfile][index].done = !data.tasks[currentProfile][index].done;
-        saveData();
-        renderTasks();
+    function startFiveMinTimer() {
+        clearTimer();
+        let seconds = 300;
+        const btn = document.getElementById('timerBtn');
+        const quote = document.getElementById('quote');
+        quote.innerText = "🔥 Погнали! 5 минут чистого фокуса!";
+        
+        timerInterval = setInterval(() => {
+            seconds--;
+            const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+            const s = String(seconds % 60).padStart(2, '0');
+            btn.innerText = `⏳ ${m}:${s} (сброс)`;
+            if (seconds <= 0) {
+                clearTimer();
+                quote.innerText = "🏆 Красавчик! 5 минут прошли!";
+            }
+        }, 1000);
+        btn.onclick = () => {
+            clearTimer();
+            quote.innerText = "Таймер остановлен.";
+        };
     }
 
-    function deleteTask(index) {
-        data.tasks[currentProfile].splice(index, 1);
-        saveData();
-        renderTasks();
-    }
-
-    updateTabsUI();
-    renderTasks();
-</script>
-
-</body>
-</html>
+    function clearTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+        const btn = document.getElementById('timerBtn');
+        btn.innerText = "⏱ Таймер 5 мин";
+Используйте код с осторожностью.
+btn.onclick = startFiveMinTimer;
+}
+function checkTimeAndAlarms() {
+const now = new Date();
+const currentTimeStr = ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')};
+document.getElementById('clock').innerText = currentTimeStr;
+let foundAlarmIndex = null;
+tasks.forEach((task, idx) => {
+const alarmKey = ${task.time}-${task.text};
+if (!task.done && task.time === currentTimeStr && !dismissedAlarms[alarmKey]) {
+foundAlarmIndex = idx;
+}
+});
+const box = document.getElementById('motivatorBox');
+const quoteEl = document.getElementById('quote');
+const ackBtn = document.getElementById('alarmAckBtn');
+const moodBtns = document.getElementById('moodBtns');
+if (foundAlarmIndex !== null) {
+if (activeAlarmTaskIndex !== foundAlarmIndex) {
+clearTimer();
+activeAlarmTaskIndex = foundAlarmIndex;
+const task = tasks[foundAlarmIndex];
+const tpl = alarmTemplates[Math.floor(Math.random() * alarmTemplates.length)];
+quoteEl.innerText = tpl.replace('{time}', task.time).replace('{task}', task.text);
+box.classList.add('alarm');
+ackBtn.style.display = 'block';
+moodBtns.style.display = 'none';
+document.getElementById('timerBtn').style.display = 'none';
+renderTasks();
+}
+} else if (activeAlarmTaskIndex !== null) {
+resetAlarmUI();
+}
+}
+function resetAlarmUI() {
+activeAlarmTaskIndex = null;
+document.getElementById('motivatorBox').classList.remove('alarm');
+document.getElementById('alarmAckBtn').style.display = 'none';
+document.getElementById('moodBtns').style.display = 'flex';
+document.getElementById('quote').innerText = "Как настрой дальше?";
+renderTasks();
+}
+function ackAlarm() {
+if (activeAlarmTaskIndex !== null) {
+const task = tasks[activeAlarmTaskIndex];
+dismissedAlarms[${task.time}-${task.text}] = true;
+resetAlarmUI();
+}
+}
+function saveData() {
+localStorage.setItem('mySoloTasks', JSON.stringify(tasks));
+}
+function renderTasks() {
+const list = document.getElementById('taskList');
+list.innerHTML = '';
+tasks.sort((a, b) => a.time.localeCompare(b.time));
+tasks.forEach((task, index) => {
+const li = document.createElement('li');
+li.className = 'task-item' + (task.done ? ' done' : '');
+li.innerHTML = <div class="task-info" onclick="toggleTask(${index})"> <span class="task-time">${task.time}</span> <span class="task-text">${task.text}</span> </div> <button class="btn-del" onclick="deleteTask(${index})">✕</button>;
+list.appendChild(li);
+});
+}
+function addTask() {
+let time = document.getElementById('taskTime').value.trim();
+const text = document.getElementById('taskInput').value.trim();
+if (!text) return;
+if (time.length === 4 && !time.includes(':')) {
+time = time.slice(0, 2) + ':' + time.slice(2);
+}
+tasks.push({ time: time || "12:00", text: text, done: false });
+document.getElementById('taskInput').value = '';
+saveData();
+checkTimeAndAlarms();
+renderTasks();
+}
+function toggleTask(index) {
+tasks[index].done = !tasks[index].done;
+saveData();
+checkTimeAndAlarms();
+renderTasks();
+}
+function deleteTask(index) {
+tasks.splice(index, 1);
+saveData();
+checkTimeAndAlarms();
+renderTasks();
+}
+checkTimeAndAlarms();
+renderTasks();
+setInterval(checkTimeAndAlarms, 5000);
+    
