@@ -2,337 +2,226 @@ html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Пинко-Виджет</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        html, body {
-            width: 100vw;
-            max-width: 100%;
-            overflow-x: hidden;
-            background-color: #141416;
-            color: #ffffff;
-            font-family: sans-serif;
-            padding: 2px;
-        }
-        .widget-card {
-            width: 100%;
-            background: #1e1e24;
-            border-radius: 12px;
-            padding: 8px;
-            border: 1px solid #2e2e38;
-        }
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-        .title {
-            font-size: 12px;
-            font-weight: bold;
-            color: #f2f2f7;
-        }
-        .clock {
-            font-size: 11px;
-            font-weight: bold;
-            color: #ff9f0a;
-            background: #141416;
-            padding: 2px 6px;
-            border-radius: 5px;
-        }
-        .motivator {
-            background: #282830;
-            border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 6px;
-        }
-        .motivator.alarm {
-            background: #ff9f0a;
-            color: #000000;
-        }
-        .motivator.alarm .quote-text {
-            color: #000000;
-            font-weight: bold;
-        }
-        .quote-text {
-            font-size: 11px;
-            line-height: 1.3;
-            color: #f2f2f7;
-            margin-bottom: 6px;
-            word-break: break-word;
-        }
-        .mood-buttons {
-            display: flex;
-            gap: 3px;
-            width: 100%;
-        }
-        .mood-btn {
-            flex: 1;
-            min-width: 0;
-            background: #3a3a44;
-            color: #ffffff;
-            border: none;
-            padding: 4px 2px;
-            border-radius: 5px;
-            font-size: 10px;
-            cursor: pointer;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .timer-btn, .alarm-ack-btn {
-            width: 100%;
-            border: none;
-            padding: 5px;
-            border-radius: 5px;
-            font-size: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 4px;
-            display: none;
-        }
-        .timer-btn { background: #30d158; color: #000; }
-        .alarm-ack-btn { background: #000; color: #ff9f0a; }
-        
-        .row {
-            display: flex;
-            gap: 3px;
-            margin-bottom: 6px;
-            width: 100%;
-        }
-        input {
-            background: #141416;
-            border: 1px solid #3a3a44;
-            color: #fff;
-            padding: 4px 6px;
-            border-radius: 5px;
-            font-size: 11px;
-            min-width: 0;
-        }
-        .chat-input { flex: 1; }
-        .time-in { width: 46px; text-align: center; flex-shrink: 0; }
-        .task-in { flex: 1; }
-        
-        .btn-small {
-            background: #ff9f0a;
-            color: #000;
-            border: none;
-            padding: 0 8px;
-            border-radius: 5px;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        .btn-add {
-            background: #30d158;
-            color: #000;
-            border: none;
-            width: 24px;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        .task-list {
-            list-style: none;
-            max-height: 140px;
-            overflow-y: auto;
-            width: 100%;
-        }
-        .task-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 5px 6px;
-            background: #25252d;
-            border-radius: 6px;
-            margin-bottom: 4px;
-            font-size: 11px;
-            gap: 4px;
-        }
-        .task-item.done { opacity: 0.4; text-decoration: line-through; }
-        .task-info {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            flex: 1;
-            min-width: 0;
-            cursor: pointer;
-        }
-        .task-time { color: #ff9f0a; font-weight: bold; flex-shrink: 0; }
-        .task-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .btn-del {
-            background: transparent;
-            color: #ff453a;
-            border: none;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Учёба-Виджет</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; overflow-x: hidden; background-color: #0b1120; color: #f8fafc; font-family: sans-serif; padding: 4px; }
+.widget-card { width: 100%; max-width: 420px; margin: 0 auto; background: #1e293b; border-radius: 14px; padding: 10px; border: 1px solid #334155; }
+.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.title { font-size: 13px; font-weight: bold; color: #38bdf8; }
+.badges { display: flex; gap: 5px; align-items: center; }
+.progress-badge { font-size: 11px; font-weight: bold; color: #34d399; background: #0f172a; padding: 2px 7px; border-radius: 5px; }
+.clock { font-size: 11px; font-weight: bold; color: #38bdf8; background: #0f172a; padding: 2px 7px; border-radius: 5px; }
+.motivator { background: #0f172a; border-radius: 10px; padding: 9px; margin-bottom: 8px; border: 1px solid #1e293b; }
+.motivator.alarm { background: #0284c7; color: #ffffff; border: 1px solid #7dd3fc; }
+.motivator.alarm .quote-text { color: #ffffff; font-weight: bold; }
+.quote-text { font-size: 12px; line-height: 1.35; color: #e2e8f0; margin-bottom: 8px; word-break: break-word; }
+.mood-buttons { display: flex; gap: 4px; width: 100%; }
+.mood-btn { flex: 1; min-width: 0; background: #1e293b; color: #e2e8f0; border: 1px solid #334155; padding: 6px 2px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+.mood-btn:active { background: #38bdf8; color: #0f172a; }
+.timer-row { display: none; gap: 4px; margin-top: 6px; width: 100%; }
+.timer-btn { flex: 1; border: none; padding: 6px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; background: #38bdf8; color: #0f172a; }
+.timer-btn.pomo { background: #818cf8; color: #0f172a; }
+.alarm-ack-btn { width: 100%; border: none; padding: 6px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 6px; display: none; background: #f8fafc; color: #0284c7; }
+.tabs { display: flex; gap: 4px; margin-bottom: 8px; background: #0f172a; padding: 3px; border-radius: 8px; }
+.tab-btn { flex: 1; background: transparent; color: #94a3b8; border: none; padding: 5px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; }
+.tab-btn.active { background: #38bdf8; color: #0f172a; }
+.row { display: flex; gap: 4px; margin-bottom: 8px; width: 100%; }
+input { background: #0f172a; border: 1px solid #334155; color: #fff; padding: 6px; border-radius: 6px; font-size: 12px; min-width: 0; }
+.time-in { width: 50px; text-align: center; flex-shrink: 0; }
+.task-in { flex: 1; }
+.btn-add { background: #34d399; color: #0f172a; border: none; width: 28px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; flex-shrink: 0; }
+.task-list { list-style: none; max-height: 150px; overflow-y: auto; width: 100%; }
+.task-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; background: #0f172a; border-radius: 6px; margin-bottom: 4px; font-size: 12px; gap: 6px; border-left: 3px solid #38bdf8; }
+.task-item.done { opacity: 0.45; text-decoration: line-through; border-left-color: #34d399; }
+.task-info { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; cursor: pointer; }
+.task-time { color: #38bdf8; font-weight: bold; flex-shrink: 0; }
+.task-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.btn-del { background: transparent; color: #f87171; border: none; font-size: 13px; font-weight: bold; cursor: pointer; flex-shrink: 0; }
+.notes-area { width: 100%; height: 130px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #f8fafc; padding: 8px; font-size: 12px; line-height: 1.4; resize: none; font-family: sans-serif; }
+.notes-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-size: 10px; color: #64748b; }
+.btn-clear-notes { background: transparent; border: none; color: #f87171; font-size: 10px; cursor: pointer; }
+</style>
 </head>
 <body>
-
 <div class="widget-card">
-    <div class="top-bar">
-        <div class="title">🤖 Помощник</div>
-        <div class="clock" id="clock">00:00</div>
-    </div>
+<div class="top-bar">
+<div class="title">📚 Учёба-Трекер</div>
+<div class="badges">
+<div class="progress-badge" id="progBadge">0/0</div>
+<div class="clock" id="clock">00:00</div>
+</div>
+</div>
 
-    <div class="motivator" id="motivatorBox">
-        <div class="quote-text" id="quote">Как настрой? Жми состояние или пиши ниже.</div>
-        <div class="mood-buttons" id="moodBtns">
-            <button class="mood-btn" onclick="askMood('lazy')">😴 Лень</button>
-            <button class="mood-btn" onclick="askMood('phone')">📱 Залип</button>
-            <button class="mood-btn" onclick="askMood('hard')">🤯 Сложно</button>
-        </div>
-        <button class="timer-btn" id="timerBtn" onclick="startFiveMinTimer()">⏱ Таймер 5 мин</button>
-        <button class="alarm-ack-btn" id="alarmAckBtn" onclick="ackAlarm()">✅ Иду делать!</button>
-    </div>
+<div class="motivator" id="motivatorBox">
+<div class="quote-text" id="quote">Готов грызть гранит науки? Выбери состояние, если застрял.</div>
+<div class="mood-buttons" id="moodBtns">
+<button class="mood-btn" onclick="askMood('lazy')">😴 Лень</button>
+<button class="mood-btn" onclick="askMood('phone')">📱 Залип</button>
+<button class="mood-btn" onclick="askMood('hard')">🤯 Сложно</button>
+</div>
+<div class="timer-row" id="timerRow">
+<button class="timer-btn" id="btn5" onclick="startTimer(300)">⏱ 5 мин старт</button>
+<button class="timer-btn pomo" id="btn25" onclick="startTimer(1500)">🍅 25 мин учёба</button>
+</div>
+<button class="alarm-ack-btn" id="alarmAckBtn" onclick="ackAlarm()">✅ Принял, сажусь учить!</button>
+</div>
 
-    <div class="row">
-        <input type="text" class="chat-input" id="userMsg" placeholder="Напиши мне..." onkeypress="if(event.key==='Enter') sendCustomMsg()">
-        <button class="btn-small" onclick="sendCustomMsg()">Ок</button>
-    </div>
+<div class="tabs">
+<button class="tab-btn active" id="tabPlan" onclick="switchTab('plan')">📅 Расписание</button>
+<button class="tab-btn" id="tabNotes" onclick="switchTab('notes')">📝 Заметки / ДЗ</button>
+</div>
 
-    <div class="row">
-        <input type="text" class="time-in" id="taskTime" value="12:00" maxlength="5">
-        <input type="text" class="task-in" id="taskInput" placeholder="Новая задача...">
-        <button class="btn-add" onclick="addTask()">+</button>
-    </div>
+<div id="planView">
+<div class="row">
+<input type="text" class="time-in" id="taskTime" value="12:00" maxlength="5">
+<input type="text" class="task-in" id="taskInput" placeholder="Предмет или задача...">
+<button class="btn-add" onclick="addTask()">+</button>
+</div>
+<ul class="task-list" id="taskList"></ul>
+</div>
 
-    <ul class="task-list" id="taskList"></ul>
+<div id="notesView" style="display:none;">
+<textarea class="notes-area" id="notesBox" placeholder="Запиши сюда ДЗ, страницы учебника, формулы или дедлайны..." oninput="saveNotes()"></textarea>
+<div class="notes-footer">
+<span id="noteStatus">Автосохранение включено</span>
+<button class="btn-clear-notes" onclick="clearNotes()">Очистить всё</button>
+</div>
+</div>
 </div>
 
 <script>
-    const moodReplies = {
-        lazy: [
-            "Батарейка на 5%? Просто открой нужную вкладку или тетрадь. Дальше пойдёт само.",
-            "Режим картошки: работаем ровно 5 минут, потом разрешаю лечь обратно.",
-            "Выпей воды и сделай хотя бы 10% от дела. Это уже победа!"
-        ],
-        phone: [
-            "В ленте ничего нового нет! Клади телефон экраном вниз на 5 минут.",
-            "Телефон тебя развлекает, а дела грустят. Спаси их на 5 минут!",
-            "Закрывай соцсети и жми таймер ниже!"
-        ],
-        hard: [
-            "Разбей задачу на самый тупой и лёгкий первый шаг. Какой он?",
-            "Не думай о всей задаче целиком — думай только о ближайших 5 минутах.",
-            "Сложно только первые 3 минуты. Пробей эту стену таймером!"
-        ]
-    };
+var moodReplies = {
+lazy: [
+"Учебник сам себя не прочитает, а препод на слово не поверит. Открой тему всего на 5 минут!",
+"Режим энергосбережения? Договор: читаем один параграф или решаем один номер, потом отдыхаешь.",
+"Самое сложное — просто открыть тетрадь. Сделай это прямо сейчас, дальше мозг втянется."
+],
+phone: [
+"В ленте мемов диплом не выдают! Убирай телефон экраном вниз и включай таймер.",
+"Твой телефон сейчас умнеет за счёт твоих данных, а ты — нет. Исправляй на 25 минут!",
+"Закрывай вкладки и жми таймер ниже. Через 25 минут проверишь сообщения."
+],
+hard: [
+"Сложная тема? Разбей её: сначала просто выпиши термины или формулы, не пытаясь всё понять сразу.",
+"Не пугайся объёма. Сделай самый тупой и лёгкий кусок задания, чтобы сдвинуться с мёртвой точки.",
+"Если задача не решается — объясни её условие вслух самому себе. Мозг сразу найдёт зацепку!"
+]
+};
+var alarmTemplates = [
+"🚨 ВРЕМЯ ({time})! Пора садиться за учёбу: {task}!",
+"⏰ ДЗИНЬ! На часах {time} — самое время закрыть: {task}!",
+"📚 Хватит откладывать! {time} наступило, пора делать: {task}!"
+];
+var activeAlarmTaskIndex = null;
+var dismissedAlarms = {};
+var timerInterval = null;
+var tasks = JSON.parse(localStorage.getItem('studyTasks')) || [
+{ time: "12:00", text: "Сесть за учёбу", done: false },
+{ time: "16:00", text: "Сделать домашку", done: false }
+];
 
-    const alarmTemplates = [
-        "🚨 ВРЕМЯ ({time})! Бросай всё и иди: {task}!",
-        "⏰ ДЗИНЬ! На часах {time}, пора: {task}!",
-        "🔥 Хватит чиллить! {time} — время для: {task}!"
-    ];
-
-    let activeAlarmTaskIndex = null;
-    let dismissedAlarms = {};
-    let timerInterval = null;
-
-    let tasks = JSON.parse(localStorage.getItem('mySoloTasks')) || [
-        { time: "12:00", text: "Сесть за учёбу", done: false },
-        { time: "15:00", text: "Сделать важное дело", done: false }
-    ];
-
-    function askMood(type) {
-        clearTimer();
-        const list = moodReplies[type];
-        document.getElementById('quote').innerText = list[Math.floor(Math.random() * list.length)];
-        document.getElementById('timerBtn').style.display = 'block';
-    }
-
-    function sendCustomMsg() {
-        const input = document.getElementById('userMsg');
-        const text = input.value.trim().toLowerCase();
-        if (!text) return;
-        input.value = '';
-        clearTimer();
-
-        let reply = "Слышу тебя! Не грузись. Давай сделаем маленький рывок на 5 минут. Жми таймер!";
-        if (text.includes('учеб') || text.includes('урок') || text.includes('учит')) {
-            reply = "Учёба сама себя не выучит! Разбери всего один абзац за 5 минут. Старт!";
-        } else if (text.includes('спат') || text.includes('сон') || text.includes('устал')) {
-            reply = "Если вырубает — поспи 20 минут. Если просто лень — 10 приседаний и 5 минут дела!";
-        } else if (text.includes('лень') || text.includes('не хочу')) {
-            reply = "Обмани мозг: поработай ровно 5 минут без обязательств.";
-        }
-
-        document.getElementById('quote').innerText = reply;
-        document.getElementById('timerBtn').style.display = 'block';
-    }
-
-    function startFiveMinTimer() {
-        clearTimer();
-        let seconds = 300;
-        const btn = document.getElementById('timerBtn');
-        const quote = document.getElementById('quote');
-        quote.innerText = "🔥 Погнали! 5 минут чистого фокуса!";
-        
-        timerInterval = setInterval(() => {
-            seconds--;
-            const m = String(Math.floor(seconds / 60)).padStart(2, '0');
-            const s = String(seconds % 60).padStart(2, '0');
-            btn.innerText = `⏳ ${m}:${s} (сброс)`;
-            if (seconds <= 0) {
-                clearTimer();
-                quote.innerText = "🏆 Красавчик! 5 минут прошли!";
-            }
-        }, 1000);
-        btn.onclick = () => {
-            clearTimer();
-            quote.innerText = "Таймер остановлен.";
-        };
-    }
-
-    function clearTimer() {
-        if (timerInterval) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-        }
-        const btn = document.getElementById('timerBtn');
-        btn.innerText = "⏱ Таймер 5 мин";
-Используйте код с осторожностью.
-btn.onclick = startFiveMinTimer;
+function switchTab(tab) {
+document.getElementById('planView').style.display = (tab === 'plan') ? 'block' : 'none';
+document.getElementById('notesView').style.display = (tab === 'notes') ? 'block' : 'none';
+document.getElementById('tabPlan').className = 'tab-btn' + (tab === 'plan' ? ' active' : '');
+document.getElementById('tabNotes').className = 'tab-btn' + (tab === 'notes' ? ' active' : '');
 }
+
+function loadNotes() {
+var saved = localStorage.getItem('studyNotes');
+if (saved) document.getElementById('notesBox').value = saved;
+}
+
+function saveNotes() {
+localStorage.setItem('studyNotes', document.getElementById('notesBox').value);
+document.getElementById('noteStatus').innerText = 'Сохранено ✓';
+}
+
+function clearNotes() {
+document.getElementById('notesBox').value = '';
+saveNotes();
+}
+
+function askMood(type) {
+clearTimer();
+var list = moodReplies[type];
+document.getElementById('quote').innerText = list[Math.floor(Math.random() * list.length)];
+document.getElementById('timerRow').style.display = 'flex';
+}
+
+function startTimer(sec) {
+clearTimer();
+var seconds = sec;
+var row = document.getElementById('timerRow');
+var quote = document.getElementById('quote');
+quote.innerText = (sec === 1500) ? "🍅 Режим глубокой учёбы: 25 минут без телефона!" : "🔥 Быстрый старт: просто 5 минут работы!";
+row.innerHTML = '<button class="timer-btn" id="activeTimerBtn" onclick="stopTimerManual()">⏳ Загрузка...</button>';
+updateTimerBtnText(seconds);
+timerInterval = setInterval(function() {
+seconds--;
+updateTimerBtnText(seconds);
+if (seconds <= 0) {
+clearTimer();
+quote.innerText = "🏆 Отличная сессия! Сделай перерыв 5 минут и попей воды.";
+}
+}, 1000);
+}
+
+function updateTimerBtnText(seconds) {
+var btn = document.getElementById('activeTimerBtn');
+if (!btn) return;
+var m = ('0' + Math.floor(seconds / 60)).slice(-2);
+var s = ('0' + (seconds % 60)).slice(-2);
+btn.innerText = '⏳ Осталось: ' + m + ':' + s + ' (нажми для стопа)';
+}
+
+function stopTimerManual() {
+clearTimer();
+document.getElementById('quote').innerText = "Таймер остановлен. Как успехи с темой?";
+}
+
+function clearTimer() {
+if (timerInterval) {
+clearInterval(timerInterval);
+timerInterval = null;
+}
+var row = document.getElementById('timerRow');
+row.innerHTML = '<button class="timer-btn" onclick="startTimer(300)">⏱ 5 мин старт</button><button class="timer-btn pomo" onclick="startTimer(1500)">🍅 25 мин учёба</button>';
+}
+
 function checkTimeAndAlarms() {
-const now = new Date();
-const currentTimeStr = ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')};
+var now = new Date();
+var h = ('0' + now.getHours()).slice(-2);
+var m = ('0' + now.getMinutes()).slice(-2);
+var currentTimeStr = h + ':' + m;
+Используйте код с осторожностью.
 document.getElementById('clock').innerText = currentTimeStr;
-let foundAlarmIndex = null;
-tasks.forEach((task, idx) => {
-const alarmKey = ${task.time}-${task.text};
+var foundAlarmIndex = null;
+for (var i = 0; i < tasks.length; i++) {
+var task = tasks[i];
+var alarmKey = task.time + '-' + task.text;
 if (!task.done && task.time === currentTimeStr && !dismissedAlarms[alarmKey]) {
-foundAlarmIndex = idx;
+foundAlarmIndex = i;
 }
-});
-const box = document.getElementById('motivatorBox');
-const quoteEl = document.getElementById('quote');
-const ackBtn = document.getElementById('alarmAckBtn');
-const moodBtns = document.getElementById('moodBtns');
+}
+var box = document.getElementById('motivatorBox');
+var quoteEl = document.getElementById('quote');
+var ackBtn = document.getElementById('alarmAckBtn');
+var moodBtns = document.getElementById('moodBtns');
 if (foundAlarmIndex !== null) {
 if (activeAlarmTaskIndex !== foundAlarmIndex) {
 clearTimer();
 activeAlarmTaskIndex = foundAlarmIndex;
-const task = tasks[foundAlarmIndex];
-const tpl = alarmTemplates[Math.floor(Math.random() * alarmTemplates.length)];
-quoteEl.innerText = tpl.replace('{time}', task.time).replace('{task}', task.text);
-box.classList.add('alarm');
+var t = tasks[foundAlarmIndex];
+var tpl = alarmTemplates[Math.floor(Math.random() * alarmTemplates.length)];
+quoteEl.innerText = tpl.replace('{time}', t.time).replace('{task}', t.text);
+box.className = 'motivator alarm';
 ackBtn.style.display = 'block';
 moodBtns.style.display = 'none';
-document.getElementById('timerBtn').style.display = 'none';
+document.getElementById('timerRow').style.display = 'none';
 renderTasks();
 }
 } else if (activeAlarmTaskIndex !== null) {
@@ -341,38 +230,58 @@ resetAlarmUI();
 }
 function resetAlarmUI() {
 activeAlarmTaskIndex = null;
-document.getElementById('motivatorBox').classList.remove('alarm');
+document.getElementById('motivatorBox').className = 'motivator';
 document.getElementById('alarmAckBtn').style.display = 'none';
 document.getElementById('moodBtns').style.display = 'flex';
-document.getElementById('quote').innerText = "Как настрой дальше?";
+document.getElementById('quote').innerText = "Отлично! Продуктивной учёбы.";
 renderTasks();
 }
 function ackAlarm() {
 if (activeAlarmTaskIndex !== null) {
-const task = tasks[activeAlarmTaskIndex];
-dismissedAlarms[${task.time}-${task.text}] = true;
+var task = tasks[activeAlarmTaskIndex];
+dismissedAlarms[task.time + '-' + task.text] = true;
 resetAlarmUI();
 }
 }
 function saveData() {
-localStorage.setItem('mySoloTasks', JSON.stringify(tasks));
+localStorage.setItem('studyTasks', JSON.stringify(tasks));
 }
 function renderTasks() {
-const list = document.getElementById('taskList');
+var list = document.getElementById('taskList');
 list.innerHTML = '';
-tasks.sort((a, b) => a.time.localeCompare(b.time));
-tasks.forEach((task, index) => {
-const li = document.createElement('li');
+tasks.sort(function(a, b) { return a.time.localeCompare(b.time); });
+var doneCount = 0;
+for (var i = 0; i < tasks.length; i++) {
+var task = tasks[i];
+if (task.done) doneCount++;
+var li = document.createElement('li');
 li.className = 'task-item' + (task.done ? ' done' : '');
-li.innerHTML = <div class="task-info" onclick="toggleTask(${index})"> <span class="task-time">${task.time}</span> <span class="task-text">${task.text}</span> </div> <button class="btn-del" onclick="deleteTask(${index})">✕</button>;
+var info = document.createElement('div');
+info.className = 'task-info';
+info.setAttribute('onclick', 'toggleTask(' + i + ')');
+var spTime = document.createElement('span');
+spTime.className = 'task-time';
+spTime.innerText = task.time;
+var spText = document.createElement('span');
+spText.className = 'task-text';
+spText.innerText = task.text;
+info.appendChild(spTime);
+info.appendChild(spText);
+var del = document.createElement('button');
+del.className = 'btn-del';
+del.setAttribute('onclick', 'deleteTask(' + i + ')');
+del.innerText = '✕';
+li.appendChild(info);
+li.appendChild(del);
 list.appendChild(li);
-});
+}
+document.getElementById('progBadge').innerText = doneCount + '/' + tasks.length;
 }
 function addTask() {
-let time = document.getElementById('taskTime').value.trim();
-const text = document.getElementById('taskInput').value.trim();
+var time = document.getElementById('taskTime').value.trim();
+var text = document.getElementById('taskInput').value.trim();
 if (!text) return;
-if (time.length === 4 && !time.includes(':')) {
+if (time.length === 4 && time.indexOf(':') === -1) {
 time = time.slice(0, 2) + ':' + time.slice(2);
 }
 tasks.push({ time: time || "12:00", text: text, done: false });
@@ -393,11 +302,13 @@ saveData();
 checkTimeAndAlarms();
 renderTasks();
 }
+loadNotes();
 checkTimeAndAlarms();
 renderTasks();
 setInterval(checkTimeAndAlarms, 5000);
 </script>
-
 </body>
 </html>
 
+
+    
