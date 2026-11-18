@@ -1,189 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#060d0b">
 <title>ХимЛаб ULTRA</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#060d0b;color:#ecfdf5;font-family:sans-serif;padding:4px}
-.card{max-width:420px;margin:0 auto;background:#0f1f1b;border-radius:12px;padding:10px;border:1px solid #1e3a32}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.title{font-size:13px;font-weight:bold;color:#10b981}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#060d0b;color:#ecfdf5;font-family:system-ui,sans-serif;padding:6px;min-height:100vh}
+#bg{position:fixed;inset:0;z-index:0}
+#fx{position:fixed;inset:0;z-index:9;pointer-events:none}
+.card{position:relative;z-index:1;max-width:420px;margin:0 auto;background:#0f1f1bf2;border-radius:12px;padding:10px;border:1px solid #1e3a32}
+.crazy .card{animation:hue 2s linear infinite}
+@keyframes hue{to{filter:hue-rotate(360deg)}}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:4px}
+.title{font-size:14px;font-weight:bold;color:#10b981;user-select:none}
 .badge{font-size:11px;font-weight:bold;color:#34d399;background:#060d0b;padding:2px 6px;border-radius:5px;border:1px solid #1e3a32}
-.box{background:#060d0b;border-radius:8px;padding:8px;margin-bottom:8px;border:1px solid #132a24}
-.box.alarm{background:#059669}
-.quote{font-size:12px;line-height:1.35;margin-bottom:8px;color:#d1fae5}
+.ib{background:#060d0b;border:1px solid #1e3a32;padding:2px 5px;font-size:12px;border-radius:5px}
+.bar{height:7px;background:#060d0b;border-radius:4px;overflow:hidden;border:1px solid #1e3a32}
+.bar i{display:block;height:100%;width:0;transition:width .4s}
+#xpb{background:linear-gradient(90deg,#10b981,#38bdf8)}
+#bb{background:linear-gradient(90deg,#f87171,#fb923c)}
+.lab{font-size:10px;color:#6ee7b7;margin:4px 0 2px;display:flex;justify-content:space-between}
+.box{background:#060d0b;border-radius:8px;padding:8px;margin:8px 0;border:1px solid #132a24}
+.box.alarm{background:#059669;animation:al .5s infinite}
+@keyframes al{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px) rotate(-.6deg)}75%{transform:translateX(4px) rotate(.6deg)}}
+.shake{animation:al .1s 6}
+.quote{font-size:13px;line-height:1.4;margin-bottom:8px;color:#d1fae5}
 .row{display:flex;gap:4px;margin-bottom:6px}
-button{border:none;border-radius:6px;font-weight:bold;cursor:pointer}
-.m-btn{flex:1;background:#0f1f1b;color:#a7f3d0;border:1px solid #1e3a32;padding:6px 2px;font-size:10px}
-.t-btn{flex:1;background:#10b981;color:#060d0b;padding:6px;font-size:11px}
-.ack-btn{width:100%;background:#ecfdf5;color:#065f46;padding:6px;font-size:11px;display:none}
-.tab{flex:1;background:#060d0b;color:#6ee7b7;padding:6px;font-size:11px}
-.tab.active{background:#10b981;color:#060d0b}
-.sub-tab{flex:1;background:#060d0b;color:#6ee7b7;border:1px solid #1e3a32;padding:4px 2px;font-size:9px}
-.sub-tab.active{background:#38bdf8;color:#060d0b}
-input{background:#060d0b;border:1px solid #1e3a32;color:#ecfdf5;padding:6px;border-radius:6px;font-size:12px;min-width:0}
-.in-time{width:50px;text-align:center}
-.in-text{flex:1}
-.add-btn{background:#10b981;color:#060d0b;width:28px;font-size:16px}
-ul{list-style:none;max-height:150px;overflow-y:auto}
-li{display:flex;justify-content:space-between;align-items:center;padding:6px;background:#060d0b;border-radius:6px;margin-bottom:4px;font-size:12px;border-left:3px solid #10b981}
-li.done{opacity:0.4;text-decoration:line-through}
-.t-info{flex:1;display:flex;gap:6px;cursor:pointer;overflow:hidden}
-.del{background:none;color:#f87171;font-size:13px;padding:0 4px}
-textarea,.cheat{width:100%;height:120px;background:#060d0b;border:1px solid #1e3a32;border-radius:8px;color:#ecfdf5;padding:8px;font-size:11px;line-height:1.4}
-textarea{resize:none}
-.cheat{overflow-y:auto;display:none}
-</style>
-</head>
-<body>
-<div class="card">
-<div class="top"><div class="title">🧪 ХимЛаб ULTRA</div><div><span class="badge" id="prog">0/0</span> <span class="badge" id="clk">00:00</span></div></div>
-<div class="box" id="mbox">
-<div class="quote" id="q">Реакция ждёт энергии активации. Жми на колбу ниже!</div>
-<div class="row" id="mbtns"><button class="m-btn" onclick="mood(0)">😴 Лень</button><button class="m-btn" onclick="mood(1)">📱 Залип</button><button class="m-btn" onclick="mood(2)">🤯 Сложно</button><button class="m-btn" onclick="mood(3)">⚗️ Отдых</button></div>
-<div class="row" id="trow" style="display:none"><button class="t-btn" onclick="timer(300)">🔥 5 мин</button><button class="t-btn" style="background:#38bdf8" onclick="timer(1500)">☢️ 25 мин</button></div>
-<button class="ack-btn" id="abtn" onclick="ack()">✅ Принял, сажусь делать!</button>
-</div>
-<div class="row"><button class="tab active" id="tp" onclick="tab(0)">📅 План</button><button class="tab" id="tn" onclick="tab(1)">🧬 Лаб. журнал</button></div>
-<div id="vp">
-<div class="row"><input class="in-time" id="tt" value="12:00" maxlength="5"><input class="in-text" id="ti" placeholder="Реакция, лаба или предмет..."><button class="add-btn" onclick="add()">+</button></div>
-<ul id="list"></ul>
-</div>
-<div id="vn" style="display:none">
-<div class="row"><button class="sub-tab active" id="st0" onclick="subTab(0)">🧪 ДЗ</button><button class="sub-tab" id="st1" onclick="subTab(1)">⚗️ Записи</button><button class="sub-tab" id="st2" onclick="subTab(2)">☢️ Шпоры</button><button class="sub-tab" id="st3" onclick="subTab(3)">📖 База</button></div>
-<textarea id="nb" placeholder="Пиши сюда уравнения, конспекты или ДЗ..." oninput="saveNote()"></textarea>
-<div class="cheat" id="cb"><b>Основные формулы:</b><br>• n = m / M = V / Vm (Vm = 22.4 л/моль) = N / Na (Na = 6.02·10²³)<br>• ω(в-ва) = m(в-ва) / m(р-ра) · 100%<br>• C(молярная) = n / V(р-ра, в литрах)<br>• Выход η = m(практ) / m(теор) · 100%<br><b>Индикаторы (Кислота / Нейтр / Щёлочь):</b><br>• Лакмус: Красный / Фиол / Синий<br>• Метилоранж: Красный / Оранж / Жёлтый<br>• Фенолфталеин: Бесцв / Бесцв / Малиновый<br><b>Газы и осадки:</b><br>• BaSO4 (бел), AgCl (бел творож), AgBr (желтов), AgI (жёлт), Cu(OH)2 (голуб), Fe(OH)3 (бурый)<br>• H2 (хлопок), O2 (тлеющая лучинка), CO2 (мутнеет известк. вода), NH3 (нашатырь, синеет лакмус)</div>
-</div>
-</div>
-<script>
-var rep = [
-  ["Учебник Думай как математик: боль от начала дела исчезает ровно через 3 минуты. Просто начни!", "Эффект Зейгарник: мозг ненавидит брошенные дела. Уравняй одну реакцию — дальше пойдёт само!", "Правило Съешь лягушку: сделай самую противную задачу первой, пока много сил.", "Закон снижения трения: не ставь цель выучить всё, просто открой учебник на нужной странице.", "Мем: Ты сейчас как Гелий (He) — благородный, но ни с чем не реагируешь. Дай 5 мин энергии!", "Второй закон термодинамики: бардак сам по себе только растёт. Нужна энергия извне. Вставай!", "Правило 2 минут: если шаг занимает меньше 2 минут (написать Дано) — сделай немедленно.", "Нейробиология: дофамин вырабатывается ПОСЛЕ первых действий, а не во время лежания."],
-  ["Книга В работу с головой: после каждого взгляда в экран мозгу нужно 23 минуты на возврат фокуса!", "Нейробиология: дешёвый дофамин из ленты истощает рецепторы — учебник кажется пресным. Убери телефон!", "Физический барьер: телефон в другой комнате повышает продуктивность учёбы на 26%.", "Мем: Телефон как конц. H2SO4 — обугливает твоё время. Убери его из зоны реакции на 25 минут!", "Эффект остаточного внимания: пока уведомления включены, часть памяти занята ожиданием писка.", "Ты залип в экран, как натрий в воде, только без выделения пользы. Закрывай вкладки!", "Правило Сначала усилие, потом награда: 25 минут конспектов — потом 5 минут скроллинга."],
-  ["Метод Фейнмана: объясни механизм реакции простыми словами так, будто рассказываешь первокласснику.", "Активное припоминание: закрой тетрадь и напиши 3 формулы по памяти — в 2 раза эффективнее чтения!", "Интерливинг: не решай 10 одинаковых задач подряд — чередуй разные типы (ОВР, моли, цепочки).", "Ретросинтез: если не видишь путь от А к Б, иди с конца — подумай, из чего получить конечное вещество!", "Приём чанкинга: разбей сложный параграф на 3 смысловых блока и выучи только первый.", "Алгоритм задачи: 1) Уравнение; 2) Перевод всего в моли (n = m/M); 3) Пропорция по коэффициентам!", "Метод Корнелла: раздели лист на 2 колонки — слева термины, справа объяснение. Проверяй себя!", "Мем: Если задача не решается — вспомни, что ты на 65% из H2O, а вода амфотерная. Выкрутишься!"],
-  ["Ультрадианные ритмы: мозг держит пик концентрации максимум 90 минут, потом нужен 15-минутный сброс.", "Правило 20-20-20: каждые 20 мин смотри вдаль на 6 метров ровно 20 секунд. Береги оптику!", "Диффузное мышление: на прогулке или в душе мозг в фоне продолжает решать сложную задачу!", "Нейробиология отдыха: скроллинг ленты НЕ отдыхает мозг. Полежи 5 минут с закрытыми глазами.", "Дыхание по квадрату (4 сек вдох, 4 задержка, 4 выдох, 4 пауза): за минуту снижает стресс.", "Гигиена сна: во время глубокого сна гиппокамп переносит формулы в долговременную память.", "Сделай 15 приседаний — приток O2 окислит глюкозу и даст мозгу чистый АТФ без энергетиков!", "Интервальное повторение: повтори вчерашний конспект 3 минуты — это остановит забывание на 80%."]
-];
-var tasks = JSON.parse(localStorage.getItem("st")) || [{t: "12:00", x: "Сесть за химию", d: false}];
-var notes = JSON.parse(localStorage.getItem("sn_sec")) || ["", "", ""];
-var curSec = 0, tmr = null, alIdx = null, dis = JSON.parse(localStorage.getItem("sdis")) || {};
-document.getElementById("nb").value = notes || "";
-
-function tab(n) {
-  document.getElementById("vp").style.display = n ? "none" : "block";
-  document.getElementById("vn").style.display = n ? "block" : "none";
-  document.getElementById("tp").className = "tab" + (n ? "" : " active");
-  document.getElementById("tn").className = "tab" + (n ? " active" : "");
-}
-function subTab(s) {
-  curSec = s;
-  for (var i = 0; i < 4; i++) document.getElementById("st" + i).className = "sub-tab" + (i === s ? " active" : "");
-  document.getElementById("nb").style.display = (s === 3) ? "none" : "block";
-  document.getElementById("cb").style.display = (s === 3) ? "block" : "none";
-  if (s < 3) document.getElementById("nb").value = notes[s] || "";
-}
-function saveNote() {
-  if (curSec < 3) {
-    notes[curSec] = document.getElementById("nb").value;
-    localStorage.setItem("sn_sec", JSON.stringify(notes));
-  }
-}
-function mood(i) {
-  stopT();
-  var a = rep[i];
-  document.getElementById("q").innerText = a[Math.floor(Math.random() * a.length)];
-  document.getElementById("trow").style.display = "flex";
-}
-function timer(s) {
-  stopT();
-  var r = document.getElementById("trow");
-  document.getElementById("q").innerText = (s === 1500) ? "☢️ Синтез: 25 мин фокуса!" : "🔥 Энергия активации: 5 мин!";
-  r.innerHTML = '<button class="t-btn" id="at" onclick="stopT()"></button>';
-  updT(s);
-  tmr = setInterval(function() {
-    s--;
-    updT(s);
-    if (s <= 0) {
-      stopT();
-      document.getElementById("q").innerText = "🏆 Реакция прошла на 100%!";
-    }
-  }, 1000);
-}
-function updT(s) {
-  var b = document.getElementById("at");
-  if (b) b.innerText = "⏳ " + ("0" + Math.floor(s / 60)).slice(-2) + ":" + ("0" + (s % 60)).slice(-2) + " (стоп)";
-}
-function stopT() {
-  if (tmr) { clearInterval(tmr); tmr = null; }
-  document.getElementById("trow").innerHTML = '<button class="t-btn" onclick="timer(300)">🔥 5 мин</button><button class="t-btn" style="background:#38bdf8" onclick="timer(1500)">☢️ 25 мин</button>';
-}
-function render() {
-  var ul = document.getElementById("list");
-  ul.innerHTML = "";
-  tasks.sort(function(a, b) { return a.t.localeCompare(b.t); });
-  var dn = 0;
-  for (var i = 0; i < tasks.length; i++) {
-    if (tasks[i].d) dn++;
-    var li = document.createElement("li");
-    if (tasks[i].d) li.className = "done";
-    li.innerHTML = '<div class="t-info" onclick="tog(' + i + ')"><b style="color:#10b981">' + tasks[i].t + '</b><span>' + tasks[i].x + '</span></div><button class="del" onclick="del(' + i + ')">✕</button>';
-    ul.appendChild(li);
-  }
-  document.getElementById("prog").innerText = dn + "/" + tasks.length;
-  localStorage.setItem("st", JSON.stringify(tasks));
-}
-function add() {
-  var t = document.getElementById("tt").value.trim();
-  var x = document.getElementById("ti").value.trim();
-  if (!x) return;
-  if (t.length === 4 && t.indexOf(":") === -1) t = t.slice(0, 2) + ":" + t.slice(2);
-  tasks.push({t: t || "12:00", x: x, d: false});
-  document.getElementById("ti").value = "";
-  render();
-  chk();
-}
-function tog(i) { tasks[i].d = !tasks[i].d; render(); chk(); }
-function del(i) { tasks.splice(i, 1); render(); chk(); }
-function toMin(s) {
-  var p = s.split(":");
-  return p.length === 2 ? (parseInt(p, 10) * 60 + parseInt(p, 10)) : -1;
-}
-function chk() {
-  var n = new Date(), h = n.getHours(), m = n.getMinutes(), nowM = h * 60 + m;
-  document.getElementById("clk").innerText = ("0" + h).slice(-2) + ":" + ("0" + m).slice(-2);
-  var f = null;
-  for (var i = 0; i < tasks.length; i++) {
-    var tm = toMin(tasks[i].t), k = tasks[i].t + tasks[i].x;
-    if (!tasks[i].d && tm !== -1 && !dis[k] && nowM >= (tm - 15) && nowM <= (tm + 120)) { f = i; break; }
-  }
-  if (f !== null) {
-    alIdx = f;
-    document.getElementById("q").innerText = "🚨 ПОРА (" + tasks[f].t + ")! Запускай: " + tasks[f].x;
-    document.getElementById("mbox").className = "box alarm";
-    document.getElementById("abtn").style.display = "block";
-    document.getElementById("mbtns").style.display = "none";
-    document.getElementById("trow").style.display = "none";
-  } else if (alIdx !== null) {
-    alIdx = null;
-    document.getElementById("mbox").className = "box";
-    document.getElementById("abtn").style.display = "none";
-    document.getElementById("mbtns").style.display = "flex";
-    document.getElementById("q").innerText = "Жми на колбу!";
-  }
-}
-function ack() {
-  if (alIdx !== null) { dis[tasks[alIdx].t + tasks[alIdx].x] = true; localStorage.setItem("sdis", JSON.stringify(dis)); }
-  alIdx = null;
-  document.getElementById("mbox").className = "box";
-  document.getElementById("abtn").style.display = "none";
-  document.getElementById("mbtns").style.display = "flex";
-  document.getElementById("q").innerText = "Катализатор сработал!";
-}
-render();
-chk();
-setInterval(chk, 5000);
-</script>
-</body>
-</html>
-
+button{border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-family:inherit}
+button:active{transform:scale(.93)}
+.m-btn{flex:1;background:#0f1f1b;color:#a7f3d0;border:1px solid #1e3a32;padding:8px 2px;font-size:11px}
+.t-btn{flex:1;background:#10b981;color:#060d0b;padding:8px;font-size:12px}
+.ack-btn{width:100%;background:#ecfdf5;color:#065f46;padding:10px;font-size:13px;display:none}
+.tab{flex:1;background:#060d0b;color:#6ee7b7;padding:8px 0;font-size:10px}
