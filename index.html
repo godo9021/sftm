@@ -59,35 +59,131 @@ textarea{resize:none}
 </div>
 </div>
 <script>
-var rep=[
-["Учебник 'Думай как математик' (Б. Оакли): боль от начала дела исчезает ровно через 3 минуты после старта. Просто начни!","Эффект Зейгарник (психология): мозг ненавидит незавершённые дела. Уравняй одну реакцию — дальше пойдёт цепная реакция!","Правило 'Съешь лягушку': сделай самую противную задачу первой, пока уровень кортизола и энергии с утра максимален.","Закон снижения трения: не ставь цель 'выучить всю химию', поставь цель 'просто открыть учебник на нужной странице'.","Мем: Ты сейчас как Гелий (He) — благородный, но ни с чем не реагируешь. Дай 5 мин энергии активации!","Второй закон термодинамики: бардак сам по себе только растёт. Нужен приток энергии извне. Вставай!","Правило 2 минут: если шаг занимает меньше 2 минут (написать Дано, открыть тетрадь) — сделай немедленно.","Нейробиология: дофамин предвкушения вырабатывается ПОСЛЕ первых действий, а не во время лежания на диване."],
-["Книга 'В работу с головой' (К. Ньюпорт): после каждого взгляда в экран мозгу нужно 23 минуты, чтобы вернуть глубокий фокус!","Нейробиология (А. Лембке): дешёвый дофамин из ленты истощает рецепторы — после него учебник кажется пресным. Убери смартфон!","Физический барьер (из психологии привычек): телефон в другой комнате повышает продуктивность учёбы на 26%, даже если он выключен.","Мем: Телефон как конц. H2SO4 — обугливает твоё свободное время. Убери его из зоны реакции на 25 минут!","Эффект остаточного внимания: пока уведомления включены, часть оперативной памяти мозга занята ожиданием писка.","Ты залип в экран, как натрий в воде, только без бурного выделения пользы. Закрывай вкладки!","Правило 'Сначала усилие, потом награда': 25 минут конспектов — и только потом 5 минут законного скроллинга."],
-["Метод Фейнмана (из учебников): объясни механизм реакции простыми словами так, будто рассказываешь первокласснику.","Активное припоминание (когнитивистика): закрой тетрадь и напиши 3 формулы по памяти — это в 2 раза эффективнее перечитывания!","Интерливинг (из дидактики): не решай 10 однотипных задач подряд — чередуй разные типы (ОВР, моли, цепочки), так мозг учится думать.","Ретросинтез (из учебников органики): если не видишь путь от А к Б, иди с конца — подумай, из чего можно получить конечное вещество!","Приём чанкинга: разбей сложный параграф на 3 смысловых блока и выучи только первый.","Алгоритм любой расчётной задачи: 1) Уравнение; 2) Перевод всего в моли (n = m/M); 3) Пропорция по коэффициентам!","Метод Корнелла: раздели лист на 2 колонки — слева пиши ключевые термины/реагенты, справа объяснение. Закрывай правую часть и проверяй себя!","Мем: Если задача не решается — вспомни, что ты на 65% из H2O, а вода амфотерная. Выкрутишься!"],
-["Ультрадианные ритмы (физиология): мозг может держать пик концентрации максимум 90 минут, потом ему нужен 15-минутный сброс без экранов.","Правило 20-20-20 (офтальмология): каждые 20 мин смотри на объект в 6 метрах от себя ровно 20 секунд, чтобы снять спазм аккомодации.","Диффузное мышление (Б. Оакли): во время прогулки, душа или спорта мозг в фоне продолжает собирать решение сложной задачи!","Нейробиология отдыха: скроллинг ленты НЕ отдыхает мозг — префронтальная кора продолжает фильтровать гигабайты шума. Полежи в тишине.","Дыхание 'по квадрату' (4 сек вдох, 4 задержка, 4 выдох, 4 пауза): за 1 минуту снижает уровень стресса и кортизола перед зачётом.","Гигиена сна (М. Уокер): во время глубокого сна гиппокамп переносит выученные за день формулы в долговременную память. Не жертвуй сном!","Сделай 15 приседаний — приток O2 окислит глюкозу и даст мозгу чистый АТФ без всяких энергетиков!","Интервальное повторение (кривая Эббингауза): повтори вчерашний конспект 3 минуты в перерыве — это остановит забывание на 80%."]
+var rep = [
+  ["Учебник Думай как математик: боль от начала дела исчезает ровно через 3 минуты. Просто начни!", "Эффект Зейгарник: мозг ненавидит брошенные дела. Уравняй одну реакцию — дальше пойдёт само!", "Правило Съешь лягушку: сделай самую противную задачу первой, пока много сил.", "Закон снижения трения: не ставь цель выучить всё, просто открой учебник на нужной странице.", "Мем: Ты сейчас как Гелий (He) — благородный, но ни с чем не реагируешь. Дай 5 мин энергии!", "Второй закон термодинамики: бардак сам по себе только растёт. Нужна энергия извне. Вставай!", "Правило 2 минут: если шаг занимает меньше 2 минут (написать Дано) — сделай немедленно.", "Нейробиология: дофамин вырабатывается ПОСЛЕ первых действий, а не во время лежания."],
+  ["Книга В работу с головой: после каждого взгляда в экран мозгу нужно 23 минуты на возврат фокуса!", "Нейробиология: дешёвый дофамин из ленты истощает рецепторы — учебник кажется пресным. Убери телефон!", "Физический барьер: телефон в другой комнате повышает продуктивность учёбы на 26%.", "Мем: Телефон как конц. H2SO4 — обугливает твоё время. Убери его из зоны реакции на 25 минут!", "Эффект остаточного внимания: пока уведомления включены, часть памяти занята ожиданием писка.", "Ты залип в экран, как натрий в воде, только без выделения пользы. Закрывай вкладки!", "Правило Сначала усилие, потом награда: 25 минут конспектов — потом 5 минут скроллинга."],
+  ["Метод Фейнмана: объясни механизм реакции простыми словами так, будто рассказываешь первокласснику.", "Активное припоминание: закрой тетрадь и напиши 3 формулы по памяти — в 2 раза эффективнее чтения!", "Интерливинг: не решай 10 одинаковых задач подряд — чередуй разные типы (ОВР, моли, цепочки).", "Ретросинтез: если не видишь путь от А к Б, иди с конца — подумай, из чего получить конечное вещество!", "Приём чанкинга: разбей сложный параграф на 3 смысловых блока и выучи только первый.", "Алгоритм задачи: 1) Уравнение; 2) Перевод всего в моли (n = m/M); 3) Пропорция по коэффициентам!", "Метод Корнелла: раздели лист на 2 колонки — слева термины, справа объяснение. Проверяй себя!", "Мем: Если задача не решается — вспомни, что ты на 65% из H2O, а вода амфотерная. Выкрутишься!"],
+  ["Ультрадианные ритмы: мозг держит пик концентрации максимум 90 минут, потом нужен 15-минутный сброс.", "Правило 20-20-20: каждые 20 мин смотри вдаль на 6 метров ровно 20 секунд. Береги оптику!", "Диффузное мышление: на прогулке или в душе мозг в фоне продолжает решать сложную задачу!", "Нейробиология отдыха: скроллинг ленты НЕ отдыхает мозг. Полежи 5 минут с закрытыми глазами.", "Дыхание по квадрату (4 сек вдох, 4 задержка, 4 выдох, 4 пауза): за минуту снижает стресс.", "Гигиена сна: во время глубокого сна гиппокамп переносит формулы в долговременную память.", "Сделай 15 приседаний — приток O2 окислит глюкозу и даст мозгу чистый АТФ без энергетиков!", "Интервальное повторение: повтори вчерашний конспект 3 минуты — это остановит забывание на 80%."]
 ];
-var tasks=JSON.parse(localStorage.getItem('st'))||[{t:"12:00",x:"Сесть за химию",d:false}];
-var notes=JSON.parse(localStorage.getItem('sn_sec'))||["","",""];
-var curSec=0,tmr=null,alIdx=null,dis=JSON.parse(localStorage.getItem('sdis'))||{};
-document.getElementById('nb').value=notes||'';
-function tab(n){document.getElementById('vp').style.display=n?'none':'block';document.getElementById('vn').style.display=n?'block':'none';document.getElementById('tp').className='tab'+(n?'':' active');document.getElementById('tn').className='tab'+(n?' active':'');}
-function subTab(s){curSec=s;for(var i=0;i<4;i++)document.getElementById('st'+i).className='sub-tab'+(i===s?' active':'');document.getElementById('nb').style.display=(s===3)?'none':'block';document.getElementById('cb').style.display=(s===3)?'block':'none';if(s<3)document.getElementById('nb').value=notes[s]||'';}
-function saveNote(){if(curSec<3){notes[curSec]=document.getElementById('nb').value;localStorage.setItem('sn_sec',JSON.stringify(notes));}}
-function mood(i){stopT();var a=rep[i];document.getElementById('q').innerText=a[Math.floor(Math.random()*a.length)];document.getElementById('trow').style.display='flex';}
-function timer(s){stopT();var r=document.getElementById('trow');document.getElementById('q').innerText=(s===1500)?"☢️ Синтез: 25 мин фокуса!":"🔥 Энергия активации: 5 мин!";r.innerHTML='';updT(s);tmr=setInterval(function(){s--;updT(s);if(s<=0){stopT();document.getElementById('q').innerText="🏆 Реакция прошла на 100%!";}},1000);}
-function updT(s){var b=document.getElementById('at');if(b)b.innerText='⏳ '+('0'+Math.floor(s/60)).slice(-2)+':'+('0'+(s%60)).slice(-2)+' (стоп)';}
-function stopT(){if(tmr){clearInterval(tmr);tmr=null;}document.getElementById('trow').innerHTML='🔥 5 мин☢️ 25 мин';}
-function render(){var ul=document.getElementById('list');ul.innerHTML='';tasks.sort(function(a,b){return a.t.localeCompare(b.t);});var dn=0;for(var i=0;i<tasks.length;i++){if(tasks[i].d)dn++;var li=document.createElement('li');if(tasks[i].d)li.className='done';li.innerHTML=''+tasks[i].t+''+tasks[i].x+'✕';ul.appendChild(li);}document.getElementById('prog').innerText=dn+'/'+tasks.length;localStorage.setItem('st',JSON.stringify(tasks));}
-function add(){var t=document.getElementById('tt').value.trim(),x=document.getElementById('ti').value.trim();if(!x)return;if(t.length===4&&t.indexOf(':')===-1)t=t.slice(0,2)+':'+t.slice(2);tasks.push({t:t||"12:00",x:x,d:false});document.getElementById('ti').value='';render();chk();}
-function tog(i){tasks[i].d=!tasks[i].d;render();chk();}
-function del(i){tasks.splice(i,1);render();chk();}
-function toMin(s){var p=s.split(':');return p.length===2?(parseInt(p,10)60+parseInt(p,10)):-1;}
-function chk(){var n=new Date(),h=n.getHours(),m=n.getMinutes(),nowM=h60+m;document.getElementById('clk').innerText=('0'+h).slice(-2)+':'+('0'+m).slice(-2);var f=null;for(var i=0;i<tasks.length;i++){var tm=toMin(tasks[i].t),k=tasks[i].t+tasks[i].x;if(!tasks[i].d&&tm!==-1&&!dis[k]&&nowM>=(tm-15)&&nowM<=(tm+120)){f=i;break;}}if(f!==null){alIdx=f;document.getElementById('q').innerText="🚨 ПОРА ("+tasks[f].t+")! Запускай: "+tasks[f].x;document.getElementById('mbox').className='box alarm';document.getElementById('abtn').style.display='block';document.getElementById('mbtns').style.display='none';document.getElementById('trow').style.display='none';}else if(alIdx!==null){alIdx=null;document.getElementById('mbox').className='box';document.getElementById('abtn').style.display='none';document.getElementById('mbtns').style.display='flex';document.getElementById('q').innerText="Жми на колбу!";}}
-function ack(){if(alIdx!==null){dis[tasks[alIdx].t+tasks[alIdx].x]=true;localStorage.setItem('sdis',JSON.stringify(dis));}alIdx=null;document.getElementById('mbox').className='box';document.getElementById('abtn').style.display='none';document.getElementById('mbtns').style.display='flex';document.getElementById('q').innerText="Катализатор сработал!";}
-render();chk();setInterval(chk,5000);
-</script>
+var tasks = JSON.parse(localStorage.getItem("st")) || [{t: "12:00", x: "Сесть за химию", d: false}];
+var notes = JSON.parse(localStorage.getItem("sn_sec")) || ["", "", ""];
+var curSec = 0, tmr = null, alIdx = null, dis = JSON.parse(localStorage.getItem("sdis")) || {};
+document.getElementById("nb").value = notes || "";
 
+function tab(n) {
+  document.getElementById("vp").style.display = n ? "none" : "block";
+  document.getElementById("vn").style.display = n ? "block" : "none";
+  document.getElementById("tp").className = "tab" + (n ? "" : " active");
+  document.getElementById("tn").className = "tab" + (n ? " active" : "");
+}
+function subTab(s) {
+  curSec = s;
+  for (var i = 0; i < 4; i++) document.getElementById("st" + i).className = "sub-tab" + (i === s ? " active" : "");
+  document.getElementById("nb").style.display = (s === 3) ? "none" : "block";
+  document.getElementById("cb").style.display = (s === 3) ? "block" : "none";
+  if (s < 3) document.getElementById("nb").value = notes[s] || "";
+}
+function saveNote() {
+  if (curSec < 3) {
+    notes[curSec] = document.getElementById("nb").value;
+    localStorage.setItem("sn_sec", JSON.stringify(notes));
+  }
+}
+function mood(i) {
+  stopT();
+  var a = rep[i];
+  document.getElementById("q").innerText = a[Math.floor(Math.random() * a.length)];
+  document.getElementById("trow").style.display = "flex";
+}
+function timer(s) {
+  stopT();
+  var r = document.getElementById("trow");
+  document.getElementById("q").innerText = (s === 1500) ? "☢️ Синтез: 25 мин фокуса!" : "🔥 Энергия активации: 5 мин!";
+  r.innerHTML = '<button class="t-btn" id="at" onclick="stopT()"></button>';
+  updT(s);
+  tmr = setInterval(function() {
+    s--;
+    updT(s);
+    if (s <= 0) {
+      stopT();
+      document.getElementById("q").innerText = "🏆 Реакция прошла на 100%!";
+    }
+  }, 1000);
+}
+function updT(s) {
+  var b = document.getElementById("at");
+  if (b) b.innerText = "⏳ " + ("0" + Math.floor(s / 60)).slice(-2) + ":" + ("0" + (s % 60)).slice(-2) + " (стоп)";
+}
+function stopT() {
+  if (tmr) { clearInterval(tmr); tmr = null; }
+  document.getElementById("trow").innerHTML = '<button class="t-btn" onclick="timer(300)">🔥 5 мин</button><button class="t-btn" style="background:#38bdf8" onclick="timer(1500)">☢️ 25 мин</button>';
+}
+function render() {
+  var ul = document.getElementById("list");
+  ul.innerHTML = "";
+  tasks.sort(function(a, b) { return a.t.localeCompare(b.t); });
+  var dn = 0;
+  for (var i = 0; i < tasks.length; i++) {
+    if (tasks[i].d) dn++;
+    var li = document.createElement("li");
+    if (tasks[i].d) li.className = "done";
+    li.innerHTML = '<div class="t-info" onclick="tog(' + i + ')"><b style="color:#10b981">' + tasks[i].t + '</b><span>' + tasks[i].x + '</span></div><button class="del" onclick="del(' + i + ')">✕</button>';
+    ul.appendChild(li);
+  }
+  document.getElementById("prog").innerText = dn + "/" + tasks.length;
+  localStorage.setItem("st", JSON.stringify(tasks));
+}
+function add() {
+  var t = document.getElementById("tt").value.trim();
+  var x = document.getElementById("ti").value.trim();
+  if (!x) return;
+  if (t.length === 4 && t.indexOf(":") === -1) t = t.slice(0, 2) + ":" + t.slice(2);
+  tasks.push({t: t || "12:00", x: x, d: false});
+  document.getElementById("ti").value = "";
+  render();
+  chk();
+}
+function tog(i) { tasks[i].d = !tasks[i].d; render(); chk(); }
+function del(i) { tasks.splice(i, 1); render(); chk(); }
+function toMin(s) {
+  var p = s.split(":");
+  return p.length === 2 ? (parseInt(p, 10) * 60 + parseInt(p, 10)) : -1;
+}
+function chk() {
+  var n = new Date(), h = n.getHours(), m = n.getMinutes(), nowM = h * 60 + m;
+  document.getElementById("clk").innerText = ("0" + h).slice(-2) + ":" + ("0" + m).slice(-2);
+  var f = null;
+  for (var i = 0; i < tasks.length; i++) {
+    var tm = toMin(tasks[i].t), k = tasks[i].t + tasks[i].x;
+    if (!tasks[i].d && tm !== -1 && !dis[k] && nowM >= (tm - 15) && nowM <= (tm + 120)) { f = i; break; }
+  }
+  if (f !== null) {
+    alIdx = f;
+    document.getElementById("q").innerText = "🚨 ПОРА (" + tasks[f].t + ")! Запускай: " + tasks[f].x;
+    document.getElementById("mbox").className = "box alarm";
+    document.getElementById("abtn").style.display = "block";
+    document.getElementById("mbtns").style.display = "none";
+    document.getElementById("trow").style.display = "none";
+  } else if (alIdx !== null) {
+    alIdx = null;
+    document.getElementById("mbox").className = "box";
+    document.getElementById("abtn").style.display = "none";
+    document.getElementById("mbtns").style.display = "flex";
+    document.getElementById("q").innerText = "Жми на колбу!";
+  }
+}
+function ack() {
+  if (alIdx !== null) { dis[tasks[alIdx].t + tasks[alIdx].x] = true; localStorage.setItem("sdis", JSON.stringify(dis)); }
+  alIdx = null;
+  document.getElementById("mbox").className = "box";
+  document.getElementById("abtn").style.display = "none";
+  document.getElementById("mbtns").style.display = "flex";
+  document.getElementById("q").innerText = "Катализатор сработал!";
+}
+render();
+chk();
+setInterval(chk, 5000);
+</script>
 </body>
 </html>
 
-
-  
