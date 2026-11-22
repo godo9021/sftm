@@ -24,6 +24,7 @@
     return st.length === 1 ? st[0] : null;
   }
   function M(f) { var c = cnt(f), s = 0, k; if (!c) return null; for (k in c) s += AW[k] * c[k]; return s; }
+  window.MM = M;
   function F(x) { return (+x.toPrecision(4)).toString(); }
   function num(s) { return parseFloat(String(s).replace(",", ".")); }
 
